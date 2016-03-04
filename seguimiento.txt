@@ -1,0 +1,14 @@
+Marzo 4
++ Primera reunión.
+~ Instalar y practicar (tutorial) con Android Studio. Echar un vistazo a Eclipse+plugin (Instalar).
++ Crear un repositorio Git
+- Realizar Tutoriales de programación en Android
+  * http://developer.android.com/intl/es/training/index.html
+  * ¿Otros?
+- Analizar el RFP de apps universitarias de la CRUE
+- Búsqueda en la web de apps universitarias.
+  Descargarlas e instalarlas (3-4)
+  Hacer una relación con lista de características.
+- ¿Latex?. if (yes) then MemoriaLatex
+  Trabajo constante en la memoria
+- Échale un pensamiento a ¿qué app desarrollamos?
