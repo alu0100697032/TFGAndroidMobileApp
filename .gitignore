@@ -1,0 +1,5 @@
+memoria/*.aux
+memoria/*.txt
+memoria/*.pdf
+memoria/*.gz
+memoria/*.log

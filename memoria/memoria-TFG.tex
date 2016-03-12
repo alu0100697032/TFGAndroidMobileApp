@@ -1,0 +1,435 @@
+%
+% ---------------------------------------------------
+%
+% Trabajo Fin de Grado:
+% Author: Víctor Hernández Pérez 
+% Correo: alu0100697032@ull.edu.es
+%
+% ----------------------------------------------------
+%
+\documentclass[spanish,a4paper,14pt,oneside]{extreport}
+%\documentclass[a4paper, twoside, 12pt]{book}
+\usepackage[a4paper]{geometry}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+%\usepackage{lscape}
+\usepackage{pdflscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Next 3+3 lines select PDF or PS output (comment as apropriate)
+% To switch from PDF and PS comment/uncomment here and change Makefile
+\usepackage[pdftex]{color}
+\usepackage[pdftex]{graphicx}
+\graphicspath{{images/}}
+%\usepackage[dvips]{color}
+%\usepackage[dvips]{graphicx}
+\usepackage{epsfig}
+%\graphicspath{{images/eps/}} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{algorithmic}
+\usepackage[pdftex=true,colorlinks=false,urlcolor=blue,plainpages=false,pagebackref=true,citecolor=red]{hyperref} %hiperenlaces y backcites 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comandos para escribir "siempre igual"
+\newcommand{\App}{\texttt{App{}}}
+
+%%% Traducimos el pseudocodigo
+\renewcommand{\algorithmicwhile}{\textbf{mientras}}
+\renewcommand{\algorithmicend}{\textbf{fin}}
+\renewcommand{\algorithmicdo}{\textbf{hacer}}
+\renewcommand{\algorithmicif}{\textbf{si}}
+\renewcommand{\algorithmicthen}{\textbf{entonces}}
+\renewcommand{\algorithmicrepeat}{\textbf{repetir}}
+\renewcommand{\algorithmicuntil}{\textbf{hasta que}}
+\renewcommand{\algorithmicelse}{\textbf{en otro caso}}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+
+%%%%%%%%%%%%%%%%% Creamos un entorno para listar cÃ³digo fuente %%%%%%%%%%%%%%%
+\newenvironment{sourcecode}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\scriptsize\bfseries}
+{\end{list}}
+
+\newenvironment{littlesourcecode}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}}
+
+\newenvironment{summary}
+{\par\noindent\begin{center}\textbf{Abstract}\end{center}\begin{itshape}\par\noindent}
+{\end{itshape}}
+
+\newenvironment{keywords}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item[\hskip\labelsep \bfseries Keywords:]}
+{\end{list}}
+
+\newenvironment{palabrasClave}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item[\hskip\labelsep \bfseries Palabras clave:]}
+{\end{list}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{marron}       {rgb}{0.496, 0.203, 0.152}
+\definecolor{verde-claro}  {rgb}{0.625, 0.734, 0.199}
+\definecolor{oscuro}       {rgb}{0.187, 0.141, 0.285}
+\definecolor{gris}     	   {rgb}{0.500, 0.500, 0.500}
+\definecolor{bgd-listings} {rgb}{0.999, 0.999, 0.900}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\definecolor{gray}{gray}{.45}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Code Listings
+%\usepackage{listings} 
+%\lstloadlanguages{python,C}
+\definecolor{Brown}{cmyk}{0,0.81,1,0.60}
+\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{lightlightgray}{gray}{0.9}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Evitar partir palabras al final de la línea
+%\hyphenpenalty=10000
+%\tolerance=1000
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Para listados de código
+\usepackage{listings}
+\lstloadlanguages{C}
+
+% Definiendo colores para los listados de código fuente - Univ. Deusto
+\definecolor{violet}{rgb}{0.5,0,0.5}
+\definecolor{navy}{rgb}{0,0,0.5}
+\definecolor{hellgelb}{rgb}{1,1,0.8}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{rgb}{1,0,0}
+\definecolor{colString}{rgb}{0,0.5,0}
+
+%\lstset{morekeywords={pragma copy\_in copy\_out copy omp parallel private reduction shared hicuda loop\_partition over\_tblock over\_thread}}
+\lstset{
+        float=tbhp,
+		    language = Java,
+				morekeywords={llc,reduction_type,nc_result,
+				              hicuda,global,alloc,shape,kernel,thread,loop_partition,tblock,over_tblock,over_thread,kernel_end,copyout,free,
+											data,region,
+											task,input,inout,output,
+				              pragma,omp,parallel,reduction,private,shared,target,device,copy_in,copy_out,
+				              acc,kernels,loop,copyin,copy,pcopy,pcopyin,collapse,gang,worker,independent},
+				%\emph      ={omp,parallel,reduction,private,shared},
+				emphstyle=\textbf,
+        %basicstyle=\ttfamily\tiny,
+        basicstyle=\ttfamily\scriptsize,
+        identifierstyle=\color{colIdentifier},
+        keywordstyle=\color{colKeys},
+        stringstyle=\color{colString},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        columns=flexible,
+        tabsize=4,
+        frame=single,
+        extendedchars=true,
+        showspaces=false,
+        showstringspaces=false,
+        numbers=left,
+        numberstyle=\tiny,
+        breaklines=true,
+        backgroundcolor=\color{lightlightgray},
+        breakautoindent=true,
+        captionpos=b
+}
+
+%\renewcommand{\lstlistingname}{Listing} % Los títulos de los códigos insertados se denotan con Ejemplo...   
+
+% Otro formato más bonito para código fuente
+\newcommand{\codigofuente}[3]{%
+  \lstlisting[language=#1,caption={#2}]{#3}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\renewcommand{\lstlistingname}{Listado}% Listing -> Listado de código
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% First Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{1mm}}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{0mm}
+
+\vspace*{\stretch{0.5}}
+
+\begin{center}
+\includegraphics[scale=0.8]{images/logo_vertical}\\[10mm]
+{\Huge Trabajo de Fin de Grado}
+\end{center}
+
+\HRule
+\begin{flushright}
+        {\Huge \App{}} \\[2.5mm]
+        %{\Large \textit{App} .} \\[5mm]
+        {\Large Víctor Hernández Pérez} \\[5mm]
+
+
+\end{flushright}
+\HRule
+\vspace*{\stretch{2}}
+\begin{center}
+  \Large La Laguna, \today
+\end{center}
+
+\setlength{\parindent}{5mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Signature page (add the official stamp)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%\cleardoublepage
+\thispagestyle{empty}
+
+D. {\bf Francisco de Sande González}, con N.I.F. 42.067.050-G
+profesor
+Titular de Universidad
+adscrito al Departamento
+de Ingeniería Informática y de Sistemas
+de la Universidad de La Laguna, como tutor
+
+\bigskip
+
+\bigskip
+\bigskip
+{\bf C E R T I F I C A}
+
+\bigskip
+\bigskip
+\bigskip
+Que la presente memoria titulada:
+
+\bigskip
+``{\it \App{}}''
+
+\bigskip
+\bigskip
+\bigskip
+
+\noindent ha sido realizada bajo su dirección por D. {\bf Víctor Hernández Pérez},
+con N.I.F. 78.643.409-S
+
+\bigskip
+\bigskip
+
+Y para que así conste, en cumplimiento de la legislación vigente y a los efectos
+oportunos firman la presente en La Laguna a \today
+
+%\cleardoublepage
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+
+{ \flushright
+
+\begin{LARGE}
+Agradecimientos
+\end{LARGE}
+
+\hspace{3mm}
+
+\begin{large}
+
+
+\hspace{3mm}
+Agradezco ...
+
+
+\end{large}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\begin{huge}
+Licencia
+\end{huge}
+
+\bigskip
+%* Si quiere permitir que se compartan las adaptaciones de tu obra mientras se comparta de la misma manera
+%y NO quieres permitir usos comerciales de tu obra indica:
+
+\begin{center}
+\includegraphics[scale=1.5]{images/by-nc-sa_88x31}\\[10mm]
+{\Large \copyright~Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
+}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage  %\cleardoublepage
+\begin{abstract}
+{\em
+
+El objetivo de este trabajo ha sido crear una aplicación para dispositivos Android que permita ...
+
+\bigskip
+Partiendo de los conocimientos en \textit{Java} obtenidos en la asignatura: \textit{'Programación de Aplicaciones Interactivas'} y desarrollados en otras asignaturas como: 
+\textit{'Diseño y Análisis de Algoritmos'}, \textit{'Complejidad Computacional'} o \textit{'Inteligencia Artificial'} impartidas, la mayor parte de las mismas, en el 
+itinerario de computación del Grado en Ingeniería Informática de la Universidad de La Laguna, se espera adquirir los 
+conocimientos básicos necesarios para desarrollar aplicaciones en Android. 
+
+\bigskip
+Del mismo modo... 
+
+\bigskip 
+También ...
+
+}
+\begin{palabrasClave}
+Aplicaciones Android,.
+\end{palabrasClave}
+
+\end{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage  %\cleardoublepage
+\begin{summary}
+{\em
+
+The aim of this work has been the development of an application for Android devices that allows to ...
+
+\bigskip
+Based on the knowledge of Java obtained in the subject: ``Programming Interactive Applications'' and developed in other subjects like: ``Design and Analysis of Algorithms'', 
+``Computational Complexity'' or``Artificial Intelligence''  taken, most of them, in the
+Computer itinerary in the third year of the Universidad de La Laguna Degree in Computing Engineering, 
+in this work we expect to acquire the basic knowledge needed to
+develop Android applications.
+
+\bigskip
+Moreover ...
+
+\bigskip
+Finally ...
+
+}
+
+\begin{keywords}
+Application for Android.
+\end{keywords}
+
+\end{summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage{\pagestyle{empty}}
+\thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\pagestyle{myheadings} %my head defined by markboth or markright
+% No funciona bien \markboth sin "twoside" en \documentclass, pero al
+% ponerlo se dan un montÃ³n de errores de underfull \vbox, con lo que no se
+% ha puesto.
+\markboth{Víctor Hernández Pérez}{nombreApp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Numeracion en romanos
+\renewcommand{\thepage}{\roman{page}}
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage{\pagestyle{empty}}
+
+\listoffigures
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage{\pagestyle{empty}}
+
+%\listoftables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage{\pagestyle{empty}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Numeracion a partir del capitulo I
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\chapter{Introducción}
+%\label{chapter:intro}
+%\input{cap1.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\chapter{Título del Capítulo Dos}
+%\label{chapter:dos}
+%\input{cap2.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage{\pagestyle{empty}}
+%\thispagestyle{empty}
+%\chapter{Título del Capítulo Tres}
+%\label{chapter:tres}
+%\input{cap3.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\chapter{Título del Capítulo Cuatro}
+%\label{chapter:cuatro}
+%\input{cap4.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage{\pagestyle{empty}}
+%\thispagestyle{empty}
+%\chapter{Conclusiones y líneas futuras}
+%\label{chapter:Conclusiones}
+%\input{cap5.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage{\pagestyle{empty}}
+%\thispagestyle{empty}
+%\chapter{Summary and Conclusions }
+%\label{chapter:ingles}
+%\input{cap6.tex}
+% ==========================================================
+% --------               Capítulos                ----------
+% --------    Estan en el directorio capitulos/   ----------
+% ==========================================================
+\include{Prologo}
+\include{Cap1_objetives}
+\include{Cap2_HerrSoft}
+\include{Cap3_DescApp}
+\include{Cap4_Desarrollo}
+\include{Cap5_Despliegue}
+\include{Cap6_todo}
+\include{Cap7_SummaryClonclusions}
+\include{Cap8_Presupuesto}
+
+%\newpage{\pagestyle{empty}}
+%\thispagestyle{empty}
+
+%\chapter{Presupuesto}
+%\label{chapter:Presupuesto}
+
+%\input{cap7.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage{\pagestyle{empty}}
+%\thispagestyle{empty}
+%\begin{appendix}
+%
+%\chapter{Título del Apéndice 1}
+%\label{appendix:1}
+%\input{apendice1.tex}
+%
+%\chapter{Título del Apéndice 2}
+%\label{appendix:2}
+%\input{apendice2.tex}
+%
+%\end{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addcontentsline{toc}{chapter}{Bibliografía}
+\bibliographystyle{plain}
+\renewcommand{\bibname}{Bibliografía}   %  Para que no aparezca Índice de figuras
+\bibliography{bibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
