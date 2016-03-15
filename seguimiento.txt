@@ -6,9 +6,32 @@ Marzo 4
   * http://developer.android.com/intl/es/training/index.html
   * ¿Otros?
 - Analizar el RFP de apps universitarias de la CRUE
-- Búsqueda en la web de apps universitarias.
++ Búsqueda en la web de apps universitarias.
   Descargarlas e instalarlas (3-4)
   Hacer una relación con lista de características.
-- ¿Latex?. if (yes) then MemoriaLatex
++ ¿Latex?. if (yes) then MemoriaLatex
   Trabajo constante en la memoria
-- Échale un pensamiento a ¿qué app desarrollamos?
++ Échale un pensamiento a ¿qué app desarrollamos?
+=======================================
+Marzo 15
+
+- Mantener ACTUALIZADA la bibliografía (y links) de la MemoriaTFG
+
+- Investigación: Un "ticket" de autentificación en un teléfono es válido en
+	diferentes cuentas: gmail, Facebook, Cuenta @ull.edu.es
+- Documéntate sobre sistemas CAS libres:
+   Ja-sig
+	 https://pypi.python.org/pypi/django-mama-cas/
+- Instalar un Ja-sig CAS en un servidor propio para ir haciendo pruebas.
+- Instalar un cliente de autentificación con el CAS en Android:
+  http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-android-mobile-applications
+- Desarrolla una interfaz de usuario para autentificarte contra el CAS de tu
+	servidor.
+
+=======================================
+=======================================
+=======================================
+=======================================
+=======================================
+=======================================
+=======================================
