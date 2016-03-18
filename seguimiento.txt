@@ -27,8 +27,17 @@ Marzo 15
   http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-android-mobile-applications
 - Desarrolla una interfaz de usuario para autentificarte contra el CAS de tu
 	servidor.
-
 =======================================
+Te paso una referencia [1] que está relacionada con lo que te pedía que
+investigaras de compartir tokens de autenticación para su uso en dispositivos
+móviles.
+Échale un vistazo a esta otra [2] también, al margen de otras cosas que puedas
+tú encontrar.
+Confirma recepción, por favor
+
+[1]
+https://www.linkedin.com/pulse/dataportenno-advanced-api-platform-education-research-andreas-solberg
+[2] https://simplesamlphp.org/
 =======================================
 =======================================
 =======================================
