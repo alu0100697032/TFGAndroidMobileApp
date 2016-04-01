@@ -19,10 +19,10 @@ Marzo 15
 
 - Investigación: Un "ticket" de autentificación en un teléfono es válido en
 	diferentes cuentas: gmail, Facebook, Cuenta @ull.edu.es
-- Documéntate sobre sistemas CAS libres:
++ Documéntate sobre sistemas CAS libres:
    Ja-sig
 	 https://pypi.python.org/pypi/django-mama-cas/
-- Instalar un Ja-sig CAS en un servidor propio para ir haciendo pruebas.
++ Instalar un Ja-sig CAS en un servidor propio para ir haciendo pruebas.
 - Instalar un cliente de autentificación con el CAS en Android:
   http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-android-mobile-applications
 - Desarrolla una interfaz de usuario para autentificarte contra el CAS de tu
@@ -39,6 +39,30 @@ Confirma recepción, por favor
 https://www.linkedin.com/pulse/dataportenno-advanced-api-platform-education-research-andreas-solberg
 [2] https://simplesamlphp.org/
 =======================================
+Abril 1
+
+- Crear esqueleto látex lo más fino posible para la memoria
+- Bibliografía. Registrar y meter en la memoria
+
+Se ha autentificado contra el CAS suyo con app webs pero no móviles.
+
+- Autentificar contra el CAS con una app móvil, con una interfaz de login
+	simple.
+- Instalar un cliente de autentificación con el CAS en Android:
+  http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-android-mobile-applications
+- Mantener "viva" la autentificación con los mecanismos que encuentres:
+  a) Shared preferences
+	b) ??? Tickets
+- Investigar Dataporten: 
+  a) ver si pudiera valer para nosotros
+	b) Investigar (buscar) proyectos similares alternativos
+	c) En caso afirmativo, contactar con ellos para ver posibilidades de uso
+	   https://docs.dataporten.no/docs/gettingstarted/
+- Investigar SimpleSAMLphp
+  https://simplesamlphp.org/
+- Referencia básica: Single Sign-on (SSO)
+  https://en.wikipedia.org/wiki/Single_sign-on
+
 =======================================
 =======================================
 =======================================
