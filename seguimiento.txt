@@ -64,6 +64,16 @@ Se ha autentificado contra el CAS suyo con app webs pero no móviles.
   https://en.wikipedia.org/wiki/Single_sign-on
 
 =======================================
+Abril 29
+
+Maňana no, no he avanzado lo suficiente.
+=======================================
+Notas:
+Can i use Jasig CAS server for android mobile applications?
+http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-android-mobile-applications
+
+Using CAS without the CAS login screen
+https://wiki.jasig.org/display/CAS/Using+CAS+without+the+CAS+login+screen
 =======================================
 =======================================
 =======================================
