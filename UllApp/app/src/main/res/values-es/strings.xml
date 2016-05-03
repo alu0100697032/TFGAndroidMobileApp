@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_login">Iniciar Sesión</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="information">Información</string>
+    <string name="directory">Directorio</string>
+    <string name="campus">Campus</string>
+
+</resources>
