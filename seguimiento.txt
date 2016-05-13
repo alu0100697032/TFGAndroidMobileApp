@@ -89,5 +89,11 @@ URLs en la bibliografía. Revisar.
 - Añadir cuestiones de protocolo al servidor para poder usar realmente la app
 	que ha encontrado contra nuestro propio CAS.
 =======================================
+Mayo 13
+
+- Está en el paso de conseguir que appULL se autentifique contra el Jasig-CAS
+	que ha instalado en su servidor.
+- La app que ha encontrado está por ahora aparcada, porque ha hallado
+	dificultades.
 =======================================
 =======================================
