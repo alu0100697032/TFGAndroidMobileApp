@@ -96,4 +96,15 @@ Mayo 13
 - La app que ha encontrado está por ahora aparcada, porque ha hallado
 	dificultades.
 =======================================
+Mayo 20
+
+- El siguiente paso es autentifcarse con la app contra su propio CAS
+- Esto serviría asimismo para lo de oauth (poder autentificar con otros servicios, tipo FB)
+- http://www.observatoriotui.com/apptui AppTUI en las referencias
+
+=======================================
+=======================================
+=======================================
+=======================================
+=======================================
 =======================================
