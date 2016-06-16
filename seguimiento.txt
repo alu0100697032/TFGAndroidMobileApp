@@ -41,8 +41,8 @@ https://www.linkedin.com/pulse/dataportenno-advanced-api-platform-education-rese
 =======================================
 Abril 1
 
-- Crear esqueleto látex lo más fino posible para la memoria
-- Bibliografía. Registrar y meter en la memoria
++ Crear esqueleto látex lo más fino posible para la memoria
++ Bibliografía. Registrar y meter en la memoria
 
 Se ha autentificado contra el CAS suyo con app webs pero no móviles.
 
@@ -53,7 +53,7 @@ Se ha autentificado contra el CAS suyo con app webs pero no móviles.
 - Mantener "viva" la autentificación con los mecanismos que encuentres:
   a) Shared preferences
 	b) ??? Tickets
-- Investigar Dataporten: 
++ Investigar Dataporten: 
   a) ver si pudiera valer para nosotros
 	b) Investigar (buscar) proyectos similares alternativos
 	c) En caso afirmativo, contactar con ellos para ver posibilidades de uso
@@ -74,6 +74,42 @@ http://stackoverflow.com/questions/21603477/can-i-use-jasig-cas-server-for-andro
 
 Using CAS without the CAS login screen
 https://wiki.jasig.org/display/CAS/Using+CAS+without+the+CAS+login+screen
+=======================================
+Mayo 6
+
+Memoria
+NIF --> DNI
+URLs en la bibliografía. Revisar.
+
+* Víctor ha encontrado una aplicación con código abierto que hace más o menos
+	lo que queremos nosotros.
+	Tiene que implementar cosillas en el lado del servidor para hacer que
+	funcione con "nuestro CAS"
+	Ver temas de protocolos.
+- Añadir cuestiones de protocolo al servidor para poder usar realmente la app
+	que ha encontrado contra nuestro propio CAS.
+=======================================
+Mayo 13
+
+- Está en el paso de conseguir que appULL se autentifique contra el Jasig-CAS
+	que ha instalado en su servidor.
+- La app que ha encontrado está por ahora aparcada, porque ha hallado
+	dificultades.
+=======================================
+Mayo 20
+
+- El siguiente paso es autentifcarse con la app contra su propio CAS
+- Esto serviría asimismo para lo de oauth (poder autentificar con otros servicios, tipo FB)
+- http://www.observatoriotui.com/apptui AppTUI en las referencias
+=======================================
+Semana 27-30 Mayo
+No nos vemos. Me avisa por Telegram
+=======================================
+El 1 de junio de 2016, 19:30, Victor HERNÁNDEZ PÉREZ <alu0100697032@ull.edu.es> escribió:
+    Te comento que de momento no me he podido seguir trabajando, estoy con
+exámenes, la semana que viene tengo los últimos y se me acaban las prácticas
+externas, me pondré entonces a trabajar. De momento esta semana no nos vemos.
+Un saludo. 
 =======================================
 =======================================
 =======================================
