@@ -29,10 +29,33 @@
         android:layout_gravity="center_horizontal"
         android:onClick="authenticate" />
 
+    <FrameLayout
+        android:id="@+id/FrameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#416BC1"
+            android:onClick="onClick"
+            android:text="@string/action_login_facebook"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+    </FrameLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="dfgdfgdg"
+        android:text=""
         android:id="@+id/display" />
 
 </LinearLayout>

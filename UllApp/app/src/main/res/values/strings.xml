@@ -10,4 +10,8 @@
     <string name="information">Information</string>
     <string name="directory">Directory</string>
     <string name="campus">Campus</string>
+
+    <string name="facebook_app_id">255716731452940</string>
+    <string name="action_login_facebook">Login With Facebook</string>
+    <string name="action_logout_facebook">Logout from Facebook</string>
 </resources>
