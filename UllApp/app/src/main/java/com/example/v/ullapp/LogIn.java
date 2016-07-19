@@ -10,25 +10,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -51,11 +48,8 @@ public class LogIn extends AppCompatActivity{
         setContentView(R.layout.log_in);
 
         if(PrefUtils.getCurrentUser(LogIn.this) != null){
-
             Intent homeIntent = new Intent(LogIn.this, LogOut.class);
-
             startActivity(homeIntent);
-
             finish();
         }
     }
@@ -63,34 +57,23 @@ public class LogIn extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-
         callbackManager=CallbackManager.Factory.create();
-
         loginButton= (LoginButton)findViewById(R.id.login_button);
-
         loginButton.setReadPermissions("public_profile", "email","user_friends");
 
         btnLogin= (TextView) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 progressDialog = new ProgressDialog(LogIn.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.show();
-
                 loginButton.performClick();
-
                 loginButton.setPressed(true);
-
                 loginButton.invalidate();
-
                 loginButton.registerCallback(callbackManager, mCallBack);
-
                 loginButton.setPressed(false);
-
                 loginButton.invalidate();
-
             }
         });
     }
@@ -101,13 +84,10 @@ public class LogIn extends AppCompatActivity{
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-
             progressDialog.dismiss();
-
             // App code
             GraphRequest request = GraphRequest.newMeRequest(
                     loginResult.getAccessToken(),
@@ -137,6 +117,8 @@ public class LogIn extends AppCompatActivity{
                         }
 
                     });
+            //login server
+            loginServer();
 
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id,name,email,gender, birthday");
@@ -155,12 +137,79 @@ public class LogIn extends AppCompatActivity{
         }
     };
 
-    public void authenticate (View view) throws IOException {
+    /**
+     * Send token
+     */
+    public void loginServer() {
+
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null) {
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = getResources().getString(R.string.facebook_login_url);
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.e("Response", response + "It works!");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("Error", "Error sending token!");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("access_token", accessToken.getToken());
+                    return params;
+                }
+            };
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+        }
+    }
+    /**
+     * Ull user and password
+     * @param view
+     */
+    public void authenticate (View view) {
         EditText u = (EditText)findViewById(R.id.username);
         EditText p = (EditText)findViewById(R.id.password);
-        String username = u.getText().toString();
-        String password = p.getText().toString();
-        TextView display = (TextView)findViewById(R.id.display);
+        final String username = u.getText().toString();
+        final String password = p.getText().toString();
+        final TextView display = (TextView)findViewById(R.id.display);
         //display.setText("Username: " + username + " - Password: " + password);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        //String url ="http://192.168.1.103:8000/cas/login";
+        String url ="http://192.168.1.103:8000/accounts/login/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        display.setText("Response is: "+ response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                display.setText("That didn't work!" + error);
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username",username);
+                params.put("password",password);
+                return params;
+            }
+        };
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }
