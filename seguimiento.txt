@@ -111,6 +111,15 @@ exámenes, la semana que viene tengo los últimos y se me acaban las prácticas
 externas, me pondré entonces a trabajar. De momento esta semana no nos vemos.
 Un saludo. 
 =======================================
+Junio 17
+
+- La appULL de Víctor se autentifica a través de FB accediendo a un servidor
+	Web que ya tiene instalado. 
+- Siguiente paso: que haga lo mismo no a través de FB sino usando el Mama-CAS
+	que ya tiene instalado.
+- Tenemos que confirmar con Jorge que el CAS que ha instalado Víctor vale para
+	autentifcar en la ULL (en lugar del Jasig-cas).
+- Documentar (al menos 1-2 pgs. para cada) en la memoria todas las tecnologías con las que estás lidiando.
 =======================================
 =======================================
 =======================================
