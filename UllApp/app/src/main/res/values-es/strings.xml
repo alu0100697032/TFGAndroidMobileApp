@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="action_login">Iniciar Sesión</string>
+    <!--Placeholders-->
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
+    <!--Navigation view-->
+    <string name="user_info">Datos personales</string>
     <string name="information">Información</string>
     <string name="directory">Directorio</string>
+    <!--Buttons/actions-->
+    <string name="action_login">Iniciar Sesión</string>
+    <string name="action_login_facebook">Iniciar sesión con Facebook</string>
+    <string name="action_logout_facebook">Cerrar sesión de Facebook</string>
     <string name="campus">Campus</string>
-
+    <!--Static text-->
+    <string name="basic_access">Acceso básico</string>
+    <string name="user_access">Acceso de usuario</string>
 </resources>
