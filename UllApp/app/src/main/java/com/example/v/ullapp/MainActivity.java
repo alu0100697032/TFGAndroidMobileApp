@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity
          * Si usuario está autenticado
          */
         if(PrefUtils.getCurrentUser(MainActivity.this) != null){
+
+            //getService(); //obtiene el servicio una vez el usuario esté autenticado
+
             //Header
             View headerView = navigationView.getHeaderView(0);
             user=PrefUtils.getCurrentUser(MainActivity.this);
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, LogoutActivity.class);
             startActivity(intent);
         }
 
@@ -176,9 +179,9 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * get some data from the server
-     * @param view
+     *
      */
-    public void getService (View view) {
+    public void getService () {
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final TextView display = (TextView) findViewById(R.id.display);
         if(accessToken != null) {

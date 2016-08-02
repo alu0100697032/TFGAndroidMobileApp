@@ -16,6 +16,7 @@
     <string name="maps">Maps</string>
     <!--Buttons/actions-->
     <string name="action_login">Sign In</string>
+    <string name="action_logout">Log Out</string>
     <string name="action_login_facebook">Login With Facebook</string>
     <string name="action_logout_facebook">Logout from Facebook</string>
     <string name="campus">Campus</string>

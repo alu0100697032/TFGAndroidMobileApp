@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.log_in);
 
         if(PrefUtils.getCurrentUser(LoginActivity.this) != null){
-            Intent homeIntent = new Intent(LoginActivity.this, LogoutActivity.class);
+            Intent homeIntent = new Intent(this, MainActivity.class);
             startActivity(homeIntent);
             finish();
         }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity{
                                 e.printStackTrace();
                             }
                             Toast.makeText(LoginActivity.this,"Bienvenido "+user.name, Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(LoginActivity.this,LogoutActivity.class);
+                            Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
 
