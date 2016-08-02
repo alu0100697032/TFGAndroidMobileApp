@@ -13,6 +13,7 @@
     <string name="user_info">Personal data</string>
     <string name="information">Information</string>
     <string name="directory">Directory</string>
+    <string name="maps">Maps</string>
     <!--Buttons/actions-->
     <string name="action_login">Sign In</string>
     <string name="action_login_facebook">Login With Facebook</string>
@@ -21,4 +22,5 @@
     <!--Static text-->
     <string name="basic_access">Basic Access</string>
     <string name="user_access">User Access</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
