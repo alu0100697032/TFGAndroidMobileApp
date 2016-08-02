@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ import java.net.URL;
 /**
  * Created by Usuario on 16/06/2016.
  */
-public class LogOut extends AppCompatActivity {
+public class LogoutActivity extends AppCompatActivity {
     private TextView btnLogout;
     private User user;
     private ImageView profileImage;
@@ -29,7 +28,7 @@ public class LogOut extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_out);
-        user=PrefUtils.getCurrentUser(LogOut.this);
+        user=PrefUtils.getCurrentUser(LogoutActivity.this);
         profileImage= (ImageView) findViewById(R.id.profileImage);
 
         // fetching facebook's profile picture
@@ -62,10 +61,10 @@ public class LogOut extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrefUtils.clearCurrentUser(LogOut.this);
+                PrefUtils.clearCurrentUser(LogoutActivity.this);
                 // We can logout from facebook by calling following method
                 LoginManager.getInstance().logOut();
-                Intent i= new Intent(LogOut.this,LogIn.class);
+                Intent i= new Intent(LogoutActivity.this,LoginActivity.class);
                 startActivity(i);
                 finish();
             }

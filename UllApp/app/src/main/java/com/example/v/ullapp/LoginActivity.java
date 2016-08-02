@@ -3,6 +3,7 @@ package com.example.v.ullapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.v.ullapp.casclient.CasAuthenticationException;
+import com.example.v.ullapp.casclient.CasClient;
+import com.example.v.ullapp.casclient.CasProtocolException;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,11 +35,15 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
+import ch.boye.httpclientandroidlib.client.HttpClient;
+import ch.boye.httpclientandroidlib.impl.client.DefaultRedirectStrategy;
+import ch.boye.httpclientandroidlib.impl.client.HttpClientBuilder;
+
 
 /**
  * Created by v on 07/04/2016.
  */
-public class LogIn extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity{
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private TextView btnLogin;
@@ -47,8 +55,8 @@ public class LogIn extends AppCompatActivity{
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.log_in);
 
-        if(PrefUtils.getCurrentUser(LogIn.this) != null){
-            Intent homeIntent = new Intent(LogIn.this, LogOut.class);
+        if(PrefUtils.getCurrentUser(LoginActivity.this) != null){
+            Intent homeIntent = new Intent(LoginActivity.this, LogoutActivity.class);
             startActivity(homeIntent);
             finish();
         }
@@ -65,7 +73,7 @@ public class LogIn extends AppCompatActivity{
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = new ProgressDialog(LogIn.this);
+                progressDialog = new ProgressDialog(LoginActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.show();
                 loginButton.performClick();
@@ -104,13 +112,13 @@ public class LogIn extends AppCompatActivity{
                                 user.email = object.getString("email").toString();
                                 user.name = object.getString("name").toString();
                                 user.gender = object.getString("gender").toString();
-                                PrefUtils.setCurrentUser(user,LogIn.this);
+                                PrefUtils.setCurrentUser(user,LoginActivity.this);
 
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Toast.makeText(LogIn.this,"Bienvenido "+user.name, Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(LogIn.this,LogOut.class);
+                            Toast.makeText(LoginActivity.this,"Bienvenido "+user.name, Toast.LENGTH_LONG).show();
+                            Intent intent=new Intent(LoginActivity.this,LogoutActivity.class);
                             startActivity(intent);
                             finish();
 
@@ -185,8 +193,8 @@ public class LogIn extends AppCompatActivity{
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        //String url ="http://192.168.1.103:8000/cas/login";
-        String url ="http://192.168.1.103:8000/accounts/login/";
+        //String url ="http://192.168.1.101:8080/cas/login";
+        String url ="http://192.168.1.105:8000/account/login";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -204,12 +212,40 @@ public class LogIn extends AppCompatActivity{
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("username",username);
-                params.put("password",password);
+                params.put("username","prueba");
+                params.put("password","desarrollo");
                 return params;
             }
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    public void auth(View view){
+        HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new DefaultRedirectStrategy()).build();;
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        //CasClient c = new CasClient(client,"https://login.ull.es/cas-1/");
+        CasClient c = new CasClient(client,"http://192.168.1.101:8080/cas/");
+        try {
+            //c.login("http://192.168.1.101:8080/app1/", "victor", "victor");
+            //c.login("https://campusvirtual.ull.es/index.php?authCAS=CAS", "alu0100697032", "Baloncesto616");
+            c.validate("http://192.168.1.101:8080/app1/","ST-11-dsRteOFNA3MadUmhZdpr-cas01.example.org");
+            //c.login2("victor", "victor");
+        } catch (CasAuthenticationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (CasProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void loginWeb(View view){
+        Intent intent = new Intent(this, LoginWebActivity.class);
+        startActivity(intent);
     }
 }

@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 /**
  * Created by v on 08/04/2016.
  */
-public class Directory extends AppCompatActivity {
+public class DirectoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +17,7 @@ public class Directory extends AppCompatActivity {
     }
     //go to campus activity
     public void showCampusActivity(View view){
-        Intent intent = new Intent(this, Campus.class);
+        Intent intent = new Intent(this, CampusActivity.class);
         startActivity(intent);
     }
 }

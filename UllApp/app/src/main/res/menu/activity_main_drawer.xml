@@ -6,7 +6,8 @@
         android:id="@+id/auth">
         <item android:title="@string/user_access">
             <menu>
-                <item android:id="@+id/user_info"
+                <item
+                    android:id="@+id/user_info"
                     android:icon="@drawable/ic_menu_user"
                     android:title="@string/user_info" />
             </menu>
@@ -16,6 +17,10 @@
     <group android:checkableBehavior="single">
         <item android:title="@string/basic_access">
             <menu>
+                <item
+                    android:id="@+id/nav_maps"
+                    android:icon="@drawable/ic_menu_directory"
+                    android:title="@string/maps" />
                 <item
                     android:id="@+id/nav_info"
                     android:icon="@drawable/ic_menu_info"

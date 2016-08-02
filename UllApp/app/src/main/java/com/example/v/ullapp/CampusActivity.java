@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by v on 08/04/2016.
  */
-public class Campus extends AppCompatActivity {
+public class CampusActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
