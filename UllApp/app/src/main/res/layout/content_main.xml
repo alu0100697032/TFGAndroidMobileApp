@@ -5,28 +5,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:padding="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.v.ullapp.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <Button
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Service"
-        android:background="@drawable/custom_button"
-        android:textColor="@color/colorWhite"
-        android:id="@+id/getService"
-        android:layout_gravity="center_horizontal"
-        android:onClick="getService" />
+        android:layout_height="match_parent" >
+    </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/display"
-        android:text="Vista principal de la aplicación"
-        android:layout_marginTop="16dp"/>
 </LinearLayout>
+
