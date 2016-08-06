@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single"
-        android:visible="false"
-        android:id="@+id/auth">
-        <item android:title="@string/user_access">
-            <menu>
-                <item
-                    android:id="@+id/user_info"
-                    android:icon="@drawable/ic_menu_user"
-                    android:title="@string/user_info" />
-            </menu>
-        </item>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/basic">
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_menu_news"
+            android:title="@string/news" />
+        <item
+            android:id="@+id/user_info"
+            android:icon="@drawable/ic_menu_user"
+            android:title="@string/user_info" />
+        <item
+            android:id="@+id/nav_maps"
+            android:icon="@drawable/ic_menu_marker"
+            android:title="@string/maps" />
+        <item
+            android:id="@+id/nav_parking"
+            android:icon="@drawable/ic_menu_parking"
+            android:title="@string/parkings" />
+        <item
+            android:id="@+id/nav_directory"
+            android:icon="@drawable/ic_menu_marker"
+            android:title="@string/directory" />
     </group>
-
-    <group android:checkableBehavior="single">
-        <item android:title="@string/basic_access">
-            <menu>
-                <item
-                    android:id="@+id/nav_maps"
-                    android:icon="@drawable/ic_menu_directory"
-                    android:title="@string/maps" />
-                <item
-                    android:id="@+id/nav_info"
-                    android:icon="@drawable/ic_menu_info"
-                    android:title="@string/information" />
-                <item
-                    android:id="@+id/nav_directory"
-                    android:icon="@drawable/ic_menu_directory"
-                    android:title="@string/directory" />
-            </menu>
-        </item>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/other">
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/information" />
     </group>
-
 </menu>
