@@ -1,12 +1,6 @@
 package com.example.v.ullapp.news;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.webkit.WebView;
-
-import com.example.v.ullapp.MainActivity;
-import com.example.v.ullapp.R;
-import com.google.android.gms.location.internal.LocationRequestUpdateData;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -43,11 +37,11 @@ public class DownloadXmlTask extends AsyncTask<String, Void, List> {
         InputStream stream = null;
         // Instantiate the parser
         UllNewsXmlParser ullNewsXmlParser = new UllNewsXmlParser();
-        List<New> news = null;
+        List<NewsItem> newsItems = null;
 
         try {
             stream = downloadUrl(urlString);
-            news = ullNewsXmlParser.parse(stream);
+            newsItems = ullNewsXmlParser.parse(stream);
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
@@ -55,11 +49,7 @@ public class DownloadXmlTask extends AsyncTask<String, Void, List> {
                 stream.close();
             }
         }
-        /*String result = "";
-        for (New entry : news) {
-            result = result + " " + entry.title + " ";
-        }*/
-        return news;
+        return newsItems;
     }
 
     // Given a string representation of a URL, sets up a connection and gets

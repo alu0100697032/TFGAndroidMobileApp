@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,18 +30,21 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.v.ullapp.fragments.InfoFragment;
 import com.example.v.ullapp.fragments.NewsFragment;
+import com.example.v.ullapp.fragments.ServiceFragment;
 import com.example.v.ullapp.news.AsyncResponse;
 import com.example.v.ullapp.news.DownloadXmlTask;
 import com.example.v.ullapp.news.MyAdapter;
-import com.example.v.ullapp.news.New;
+import com.example.v.ullapp.news.NewsItem;
 import com.example.v.ullapp.news.NewsActivity;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     private User user;
     Bitmap bitmap;
     MenuItem previousMenuItem;
-    List<New> news = null;
+    List<NewsItem> newsItems = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
-            //news
+            //newses
             DownloadXmlTask downloadXmlTask = new DownloadXmlTask();
             downloadXmlTask.delegate = this;
             downloadXmlTask.execute(getResources().getString(R.string.newsFeed));
@@ -162,11 +166,11 @@ public class MainActivity extends AppCompatActivity
     public void processFinish(List result){
         //Here you will receive the result fired from async class
         //of onPostExecute(result) method.
-        news = result;
+        newsItems = result;
         displayNews(result);
     }
-    public void displayNews(List<New> news){
-        if(news != null) {
+    public void displayNews(List<NewsItem> newsItems){
+        if(newsItems != null) {
             RecyclerView mRecyclerView;
             RecyclerView.Adapter mAdapter;
             RecyclerView.LayoutManager mLayoutManager;
@@ -181,7 +185,7 @@ public class MainActivity extends AppCompatActivity
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)
-            mAdapter = new MyAdapter(news);
+            mAdapter = new MyAdapter(newsItems);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addOnItemTouchListener(
                     new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener(){
@@ -197,10 +201,10 @@ public class MainActivity extends AppCompatActivity
     }
     public void showActivityNew(View view, int position){
         Intent intent = new Intent(this, NewsActivity.class);
-        intent.putExtra("TITLE", news.get(position).getTitle());
-        intent.putExtra("LINK", news.get(position).getLink());
-        intent.putExtra("DATE", news.get(position).getPubDate());
-        intent.putExtra("CONT", news.get(position).getContent());
+        intent.putExtra("TITLE", newsItems.get(position).getTitle());
+        intent.putExtra("LINK", newsItems.get(position).getLink());
+        intent.putExtra("DATE", newsItems.get(position).getPubDate());
+        intent.putExtra("CONT", newsItems.get(position).getContent());
         startActivity(intent);
     }
     @Override
@@ -251,12 +255,22 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()){
             case R.id.nav_news:
+                Bundle arguments = new Bundle();
+                arguments.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) newsItems);
                 NewsFragment newsFragment = new NewsFragment();
+                newsFragment.setArguments(arguments);
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, newsFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //displayNews(news);
+                //displayNews(newses);
+                return true;
+            case R.id.user_info:
+                ServiceFragment serviceFragment = new ServiceFragment();
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, serviceFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
             case R.id.nav_maps:
                 intent = new Intent(this, MapsActivity.class);

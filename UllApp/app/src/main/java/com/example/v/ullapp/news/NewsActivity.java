@@ -28,12 +28,7 @@ public class NewsActivity extends AppCompatActivity {
         TextView c = (TextView) findViewById(R.id.content);
         TextView d = (TextView) findViewById(R.id.date);
         t.setText(title);
-        c.setText(Html.fromHtml(removeLinks(content)));
+        c.setText(Html.fromHtml(content));
         d.setText(date);
-    }
-
-    public String removeLinks(String text){
-        String replaced = text.replaceAll("<a.*?>|</a>", "");
-        return replaced;
     }
 }

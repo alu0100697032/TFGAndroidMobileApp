@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Usuario on 06/08/2016.
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<New> newsList;
+    private List<NewsItem> newsList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -27,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
     //Constructor
-    public MyAdapter(List<New> myDataset) {
+    public MyAdapter(List<NewsItem> myDataset) {
         this.newsList = myDataset;
     }
     @Override
@@ -42,7 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
-        New n = newsList.get(position);
+        NewsItem n = newsList.get(position);
         holder.title.setText(n.getTitle());
         holder.description.setText(n.getDescription());
         holder.pubDate.setText(n.getPubDate());

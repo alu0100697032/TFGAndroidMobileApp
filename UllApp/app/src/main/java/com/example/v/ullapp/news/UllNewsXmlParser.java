@@ -1,6 +1,5 @@
 package com.example.v.ullapp.news;
 
-import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -61,7 +60,7 @@ public class UllNewsXmlParser {
 
     // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
     // to their respective "read" methods for processing. Otherwise, skips the tag.
-    private New readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private NewsItem readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "item");
         String title = null;
         String pubDate = null;
@@ -88,7 +87,7 @@ public class UllNewsXmlParser {
                 skip(parser);
             }
         }
-        return new New(title, pubDate, link, description, content);
+        return new NewsItem(title, pubDate, link, description, content);
     }
 
     // Processes title tags in the feed.
@@ -112,7 +111,7 @@ public class UllNewsXmlParser {
         parser.require(XmlPullParser.START_TAG, ns, "pubDate");
         String pubDate = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "pubDate");
-        return pubDate;
+        return removeTime(pubDate);
     }
 
     // Processes description tags in the feed.
@@ -128,7 +127,7 @@ public class UllNewsXmlParser {
         parser.require(XmlPullParser.START_TAG, ns, "content:encoded");
         String content = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "content:encoded");
-        return content;
+        return removeLinks(content);
     }
 
     // For the tags title and summary, extracts their text values.
@@ -156,5 +155,15 @@ public class UllNewsXmlParser {
                     break;
             }
         }
+    }
+
+    public String removeLinks(String text){
+        String replaced = text.replaceAll("<a.*?>|</a>", "");
+        return replaced;
+    }
+
+    public String removeTime(String text){
+        String replaced = text.replaceAll("\\d\\d:.*", "");
+        return replaced;
     }
 }
