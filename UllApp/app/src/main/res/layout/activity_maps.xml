@@ -11,6 +11,45 @@
     map:cameraZoom="14"
     map:uiCompass="true"
     map:uiZoomControls="true"
-    tools:context="com.example.v.ullapp.MapsActivity" />
+    tools:context="com.example.v.ullapp.MapsActivity" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <TextView
+            android:id="@+id/facultades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:drawableLeft="@drawable/marker_primary"
+            android:drawablePadding="5dp"
+            android:text="Facultades"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:drawableLeft="@drawable/marker_parking"
+            android:drawablePadding="5dp"
+            android:text="Parking"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/cafeterias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:drawableLeft="@drawable/marker_cafe"
+            android:drawablePadding="5dp"
+            android:text="Cafeterías"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+</fragment>
 
 

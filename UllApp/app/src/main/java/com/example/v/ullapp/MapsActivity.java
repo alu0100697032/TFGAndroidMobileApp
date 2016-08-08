@@ -42,12 +42,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        //Facultades
         BitmapDescriptor violet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);//marcador violeta
 
         mMap.addMarker(new MarkerOptions().position(new LatLng(28.481298, -16.317419)).title("ULL-Campus Central").icon(violet));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481704, -16.319994)).title("Facultad de Física y Matemáticas").icon(violet));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481821, -16.320877)).title("Facultad de Física y Matemáticas").icon(violet));
         mMap.addMarker(new MarkerOptions().position(new LatLng(28.480515, -16.319501)).title("Facultad de Biología").icon(violet));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481704, -16.319994)).title("Escuela Superior de Ingeniería y Tecnología").icon(violet));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.482995, -16.321933)).title("Escuela Superior de Ingeniería y Tecnología").icon(violet));
         mMap.addMarker(new MarkerOptions().position(new LatLng(28.471235, -16.305918)).title("Facultad de Economia, Empresa y Turismo").icon(violet));
         mMap.addMarker(new MarkerOptions().position(new LatLng(28.470179, -16.305092)).title("Facultad de Derecho").icon(violet));
         mMap.addMarker(new MarkerOptions().position(new LatLng(28.483719, -16.315983)).title("Facultad de Educación").icon(violet));
@@ -55,6 +57,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //mMap.addMarker(new MarkerOptions().position(new LatLng(28.471235, -16.305918)).title("Facultad de Humanidades").icon(violet));
         //mMap.addMarker(new MarkerOptions().position(new LatLng(28.471235, -16.305918)).title("Facultad de Ciencias Políticas, Sociales y de la Comunicación").icon(violet));
+
+        //Parking
+        BitmapDescriptor blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481406, -16.321525)).title("Aparcamientos " +
+                "de Informática").icon(blue).snippet("Entrada a los aparcamientos"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481361, -16.321133)).title("Aparcamientos " +
+                "de Física").icon(blue).snippet("Entrada a los aparcamientos"));
+
+        //Cafeterías
+        BitmapDescriptor red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.482718, -16.322452)).title("Cafetería " +
+                "de Informática").icon(red).snippet("Cafetería de la Escuela Superior de Ingeniería y Tecnología"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(28.481841, -16.320650)).title("Cafetería " +
+                "de Física").icon(red).snippet("Cafetería de la Facultad de Física y Matemáticas"));
+
 
     }
 }
