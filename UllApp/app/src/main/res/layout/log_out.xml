@@ -11,16 +11,15 @@
         android:layout_height="76dp"
         android:src="@drawable/noprofile" />
 
-    <TextView android:text="@string/action_logout_facebook"
+    <TextView android:text="@string/action_logout"
         android:layout_marginTop="16dp"
         android:id="@+id/btnLogout"
         android:layout_centerHorizontal="true"
         android:padding="16dp"
         android:layout_below="@+id/profileImage"
-        android:background="#416BC1"
+        android:background="@drawable/custom_button"
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"/>
-
 </RelativeLayout>
