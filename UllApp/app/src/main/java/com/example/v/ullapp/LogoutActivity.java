@@ -37,7 +37,7 @@ public class LogoutActivity extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 URL imageURL = null;
                 try {
-                    imageURL = new URL("https://graph.facebook.com/" + user.facebookID + "/picture?type=large");
+                    imageURL = new URL(user.imageURL);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

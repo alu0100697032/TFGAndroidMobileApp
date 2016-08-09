@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,23 +33,36 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
 import ch.boye.httpclientandroidlib.client.HttpClient;
 import ch.boye.httpclientandroidlib.impl.client.DefaultRedirectStrategy;
 import ch.boye.httpclientandroidlib.impl.client.HttpClientBuilder;
+import ch.boye.httpclientandroidlib.impl.client.cache.ManagedHttpCacheStorage;
 
 
 /**
  * Created by v on 07/04/2016.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener{
     private CallbackManager callbackManager;
-    private LoginButton loginButton;
+    private LoginButton facebookButton;
     private TextView btnLogin;
     private ProgressDialog progressDialog;
     User user;
+
+    private static final int RC_SIGN_IN = 9001;
+    private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedIntanceState){
         super.onCreate(savedIntanceState);
@@ -60,42 +74,83 @@ public class LoginActivity extends AppCompatActivity{
             startActivity(homeIntent);
             finish();
         }
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
 
+        //Facebook
         callbackManager=CallbackManager.Factory.create();
-        loginButton= (LoginButton)findViewById(R.id.login_button);
-        loginButton.setReadPermissions("public_profile", "email","user_friends");
+        facebookButton = (LoginButton)findViewById(R.id.login_button);
+        facebookButton.setReadPermissions("public_profile", "email","user_friends");
+        facebookButton.registerCallback(callbackManager, mCallBack);
 
-        btnLogin= (TextView) findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressDialog = new ProgressDialog(LoginActivity.this);
-                progressDialog.setMessage("Loading...");
-                progressDialog.show();
-                loginButton.performClick();
-                loginButton.setPressed(true);
-                loginButton.invalidate();
-                loginButton.registerCallback(callbackManager, mCallBack);
-                loginButton.setPressed(false);
-                loginButton.invalidate();
-            }
-        });
+        //Google
+        findViewById(R.id.google_button).setOnClickListener(this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleGoogleSignInResult(result);
+        }else
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    //google
+    private void handleGoogleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully
+            GoogleSignInAccount acct = result.getSignInAccount();
+            try {
+                user = new User();
+                user.id = acct.getId();
+                user.email = acct.getEmail();
+                user.name = acct.getDisplayName();
+                user.token = acct.getIdToken();
+                if(acct.getPhotoUrl() != null)
+                    user.imageURL = acct.getPhotoUrl().toString();
+                PrefUtils.setCurrentUser(user,LoginActivity.this);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            //loginServer();
+            Toast.makeText(LoginActivity.this,"Bienvenido "+ user.name, Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.google_button:
+                googleSignIn();
+                break;
+        }
     }
 
+    private void googleSignIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("Google", "onConnectionFailed:" + connectionResult);
+    }
+    //Facebook
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             // App code
             GraphRequest request = GraphRequest.newMeRequest(
                     loginResult.getAccessToken(),
@@ -108,40 +163,38 @@ public class LoginActivity extends AppCompatActivity{
                             Log.e("response: ", response + "");
                             try {
                                 user = new User();
-                                user.facebookID = object.getString("id").toString();
+                                user.id = object.getString("id").toString();
                                 user.email = object.getString("email").toString();
                                 user.name = object.getString("name").toString();
-                                user.gender = object.getString("gender").toString();
+                                user.imageURL = "https://graph.facebook.com/" + user.id + "/picture?type=large";
                                 PrefUtils.setCurrentUser(user,LoginActivity.this);
 
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
+                            //login server
+                            loginServer();
+
                             Toast.makeText(LoginActivity.this,"Bienvenido "+user.name, Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
-
                         }
 
                     });
-            //login server
-            loginServer();
 
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender, birthday");
+            parameters.putString("fields", "id,name,email,gender");
             request.setParameters(parameters);
             request.executeAsync();
         }
 
         @Override
         public void onCancel() {
-            progressDialog.dismiss();
         }
 
         @Override
         public void onError(FacebookException e) {
-            progressDialog.dismiss();
         }
     };
 
@@ -183,7 +236,7 @@ public class LoginActivity extends AppCompatActivity{
      * Ull user and password
      * @param view
      */
-    public void authenticate (View view) {
+   /* public void authenticate (View view) {
         EditText u = (EditText)findViewById(R.id.username);
         EditText p = (EditText)findViewById(R.id.password);
         final String username = u.getText().toString();
@@ -219,7 +272,7 @@ public class LoginActivity extends AppCompatActivity{
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-    }
+    }*/
 
     public void auth(View view){
         HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new DefaultRedirectStrategy()).build();;

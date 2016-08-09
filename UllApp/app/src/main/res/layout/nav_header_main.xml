@@ -16,7 +16,7 @@
         android:id="@+id/profile_image"
         android:layout_width="76dp"
         android:layout_height="76dp"
-        android:src="@drawable/ic_action_name"
+        android:src="@drawable/noprofile"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "561231153421",
+    "project_id": "xenon-point-139010"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561231153421:android:eca6bb6389dd2d68",
+        "android_client_info": {
+          "package_name": "com.example.v.ullapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561231153421-5q0dtb9ga83i41vlaiai3jm0jdrerf8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.v.ullapp",
+            "certificate_hash": "5846DA729626A3D1F7D60AE41070D9820DC54CA6"
+          }
+        },
+        {
+          "client_id": "561231153421-tcps6ubfu7ei9dleoo33o3sniopjclsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7uQPbc477hyYgtmJCGd25Vx-k8Itnieo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

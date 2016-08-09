@@ -3,12 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_centerInParent="true"
         android:id="@+id/profileImage"
-        android:background="@mipmap/ic_launcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:src="@drawable/noprofile" />
+
     <TextView android:text="@string/action_logout_facebook"
         android:layout_marginTop="16dp"
         android:id="@+id/btnLogout"
