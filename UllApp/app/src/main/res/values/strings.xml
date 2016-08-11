@@ -3,7 +3,10 @@
     <string name="app_name">UllApp</string>
     <string name="facebook_app_id">255716731452940</string>
     <string name="facebook_login_url">https://tfgserver.herokuapp.com/account/facebook/login/token/</string>
-    <string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>
+    <string name="google_login_url">http://192.168.1.105:8000/account/google/login/token/</string>
+    <!--<string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>-->
+    <string name="newsFeed">http://ddigital.webs.ull.es/category/destacado/feed/</string>
+
 
     <!--Placeholders-->
     <string name="username">Username</string>
@@ -17,13 +20,16 @@
     <string name="maps">Maps</string>
     <string name="parkings">Parkings</string>
     <string name="news">News</string>
+    <string name="service">Service</string>
     <!--Buttons/actions-->
     <string name="action_login">Sign In</string>
     <string name="action_logout">Log Out</string>
-    <string name="action_login_facebook">Login With Facebook</string>
-    <string name="action_logout_facebook">Logout from Facebook</string>
+    <string name="action_login_facebook">Log in with Facebook</string>
+    <string name="action_logout_facebook">Log out from Facebook</string>
+    <string name="action_login_google">Log in with Google</string>
     <string name="campus">Campus</string>
     <string name="act_news">News</string>
+    <string name="action_reserve">Reserve</string>
     <!--Static text-->
     <string name="basic_access">Basic Access</string>
     <string name="user_access">User Access</string>
