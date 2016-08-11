@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.v.ullapp.R;
-import com.example.v.ullapp.news.MyAdapter;
+import com.example.v.ullapp.news.NewsAdapter;
 import com.example.v.ullapp.news.NewsActivity;
 import com.example.v.ullapp.news.NewsItem;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
@@ -59,7 +59,7 @@ public class NewsFragment extends Fragment {
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)
-            mAdapter = new MyAdapter(newsList);
+            mAdapter = new NewsAdapter(newsList);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addOnItemTouchListener(
                     new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener(){
