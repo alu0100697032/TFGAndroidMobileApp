@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_user"
             android:title="@string/user_info" />
         <item
+            android:id="@+id/nav_service"
+            android:icon="@drawable/ic_menu_service"
+            android:title="@string/service" />
+        <item
             android:id="@+id/nav_maps"
             android:icon="@drawable/ic_menu_marker"
             android:title="@string/maps" />
