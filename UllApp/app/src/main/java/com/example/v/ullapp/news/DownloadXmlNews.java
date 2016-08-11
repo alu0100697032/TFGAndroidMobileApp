@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Usuario on 05/08/2016.
  */
-public class DownloadXmlTask extends AsyncTask<String, Void, List> {
+public class DownloadXmlNews extends AsyncTask<String, Void, List> {
     public AsyncResponse delegate = null;
     @Override
     protected List doInBackground(String... urls) {

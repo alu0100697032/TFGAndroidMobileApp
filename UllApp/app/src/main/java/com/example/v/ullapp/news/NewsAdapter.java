@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Usuario on 06/08/2016.
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<NewsItem> newsList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -27,11 +27,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
     //Constructor
-    public MyAdapter(List<NewsItem> myDataset) {
+    public NewsAdapter(List<NewsItem> myDataset) {
         this.newsList = myDataset;
     }
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_layout, parent, false);
@@ -41,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         NewsItem n = newsList.get(position);
         holder.title.setText(n.getTitle());
         holder.description.setText(n.getDescription());
