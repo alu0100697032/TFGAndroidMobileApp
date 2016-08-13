@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.v.ullapp.R;
@@ -45,6 +46,9 @@ public class NewsFragment extends Fragment {
 
     public void displayNews(View view){
         if(newsList != null) {
+            ProgressBar pb = (ProgressBar) view.findViewById(R.id.progressBar);
+            if(pb != null)
+                pb.setVisibility(View.INVISIBLE);
             RecyclerView mRecyclerView;
             RecyclerView.Adapter mAdapter;
             RecyclerView.LayoutManager mLayoutManager;
@@ -70,8 +74,7 @@ public class NewsFragment extends Fragment {
                     })
             );
             //Toast.makeText(MainActivity.this, "Noticias actualizadas", Toast.LENGTH_SHORT).show();
-        }else
-            Toast.makeText(view.getContext(), "No se han podido cargar las noticias", Toast.LENGTH_SHORT).show();
+        }
     }
     public void showActivityNew(View view, int position){
         Intent intent = new Intent(view.getContext(), NewsActivity.class);
