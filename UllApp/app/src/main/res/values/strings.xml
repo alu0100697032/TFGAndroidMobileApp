@@ -4,6 +4,8 @@
     <string name="facebook_app_id">255716731452940</string>
     <string name="facebook_login_url">https://tfgserver.herokuapp.com/account/facebook/login/token/</string>
     <string name="google_login_url">http://192.168.1.105:8000/account/google/login/token/</string>
+    <string name="reserve_url">http://192.168.1.105:8000/cv/reservar</string>
+    <string name="my_data_url">http://192.168.1.105:8000/cv/user_reserves</string>
     <!--<string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>-->
     <string name="newsFeed">http://ddigital.webs.ull.es/category/destacado/feed/</string>
 
@@ -30,6 +32,7 @@
     <string name="campus">Campus</string>
     <string name="act_news">News</string>
     <string name="action_reserve">Reserve</string>
+    <string name="action_confirm">Confirm</string>
     <!--Static text-->
     <string name="basic_access">Basic Access</string>
     <string name="user_access">User Access</string>
