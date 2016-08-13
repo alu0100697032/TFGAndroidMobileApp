@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.v.ullapp.fragments.InfoFragment;
 import com.example.v.ullapp.fragments.NewsFragment;
+import com.example.v.ullapp.fragments.UserInfoFragment;
 import com.example.v.ullapp.fragments.ServiceFragment;
 import com.example.v.ullapp.news.AsyncResponse;
-import com.example.v.ullapp.news.DownloadXmlTask;
-import com.example.v.ullapp.news.MyAdapter;
+import com.example.v.ullapp.news.DownloadXmlNews;
+import com.example.v.ullapp.news.NewsAdapter;
 import com.example.v.ullapp.news.NewsItem;
 import com.example.v.ullapp.news.NewsActivity;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
@@ -41,7 +43,6 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,15 +67,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -85,27 +77,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (findViewById(R.id.fragment_container) != null) {
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
-
-            // Create a new Fragment to be placed in the activity layout
             NewsFragment firstFragment = new NewsFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
             firstFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
             //newses
-            DownloadXmlTask downloadXmlTask = new DownloadXmlTask();
-            downloadXmlTask.delegate = this;
-            downloadXmlTask.execute(getResources().getString(R.string.newsFeed));
+            DownloadXmlNews downloadXmlNews = new DownloadXmlNews();
+            downloadXmlNews.delegate = this;
+            downloadXmlNews.execute(getResources().getString(R.string.newsFeed));
         }
         /**
          * Si usuario está autenticado
@@ -122,51 +104,41 @@ public class MainActivity extends AppCompatActivity
             email.setText(user.email);
 
             final CircleImageView profile_image = (CircleImageView) headerView.findViewById(R.id.profile_image);
-            //profile_image.setImageBitmap(user.image);
-            // fetching facebook's profile picture
-            /*if(user.image == null) {
-                Log.e("I", "Requested");*/
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        URL imageURL = null;
-                        try {
-                            imageURL = new URL("https://graph.facebook.com/" + user.facebookID + "/picture?type=large");
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    URL imageURL = null;
+                    try {
+                        imageURL = new URL(user.imageURL);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
                     }
+                    try {
+                        bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
 
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        profile_image.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }.execute();
-            /*}else{
-                Log.e("I", "Stored");
-                profile_image.setImageBitmap(user.image);
-            }*/
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    profile_image.setImageBitmap(bitmap);
+                }
+            }.execute();
             //Menu
             Menu menu = navigationView.getMenu();
-            //menu.setGroupVisible(R.id.auth, true);*/
             menu.findItem(R.id.nav_news).setChecked(true);
-            /*previousMenuItem = menu.findItem(R.id.nav_news);
-            previousMenuItem.setChecked(true);*/
         }//endif
     }
     @Override
     public void processFinish(List result){
-        //Here you will receive the result fired from async class
-        //of onPostExecute(result) method.
         newsItems = result;
+        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
+        if(pb != null)
+            pb.setVisibility(View.INVISIBLE);
         displayNews(result);
     }
     public void displayNews(List<NewsItem> newsItems){
@@ -185,7 +157,7 @@ public class MainActivity extends AppCompatActivity
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)
-            mAdapter = new MyAdapter(newsItems);
+            mAdapter = new NewsAdapter(newsItems);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addOnItemTouchListener(
                     new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener(){
@@ -266,6 +238,13 @@ public class MainActivity extends AppCompatActivity
                 //displayNews(newses);
                 return true;
             case R.id.user_info:
+                UserInfoFragment userInfoFragment = new UserInfoFragment();
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, userInfoFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+            case R.id.nav_service:
                 ServiceFragment serviceFragment = new ServiceFragment();
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, serviceFragment);

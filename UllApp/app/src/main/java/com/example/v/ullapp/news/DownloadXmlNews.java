@@ -1,5 +1,6 @@
 package com.example.v.ullapp.news;
 
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -7,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class DownloadXmlNews extends AsyncTask<String, Void, List> {
 
     // Given a string representation of a URL, sets up a connection and gets
 // an input stream.
-    private InputStream downloadUrl(String urlString) throws IOException {
+    private InputStream downloadUrl(final String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000 /* milliseconds */);
