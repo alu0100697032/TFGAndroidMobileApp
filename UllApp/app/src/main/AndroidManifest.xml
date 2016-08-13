@@ -54,6 +54,14 @@
         </activity>
 
         <activity
+            android:name=".service.ServiceActivity"
+            android:label="@string/service">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.v.ullapp.MainActivity" />
+        </activity>
+
+        <activity
             android:name=".LoginWebActivity"
             android:label="Login web"
             android:parentActivityName=".LoginActivity">
