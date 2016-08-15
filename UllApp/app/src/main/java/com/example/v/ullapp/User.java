@@ -15,4 +15,6 @@ public class User {
     public String imageURL;
 
     public String token;
+
+    public String image;
 }

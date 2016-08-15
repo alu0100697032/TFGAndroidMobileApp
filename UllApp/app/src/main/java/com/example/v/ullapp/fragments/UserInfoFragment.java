@@ -1,7 +1,9 @@
 package com.example.v.ullapp.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,9 +20,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.v.ullapp.MainActivity;
 import com.example.v.ullapp.PrefUtils;
 import com.example.v.ullapp.R;
 import com.example.v.ullapp.news.AsyncResponse;
+import com.example.v.ullapp.news.DownloadXmlNews;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
 import com.example.v.ullapp.reserves.DownloadXmlReserves;
 import com.example.v.ullapp.reserves.ReserveItem;
@@ -40,14 +44,35 @@ import java.util.Map;
 public class UserInfoFragment extends Fragment implements AsyncResponse {
     private List<ReserveItem> reservesList = null;
     private View view;
+    DownloadXmlReserves downloadXmlReserves;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.content_personal_info, container, false);
-        DownloadXmlReserves downloadXmlReserves= new DownloadXmlReserves();
-        downloadXmlReserves.delegate = this;
-        downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
+        if(reservesList == null) {
+            downloadXmlReserves = new DownloadXmlReserves();
+            downloadXmlReserves.delegate = this;
+            downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
+        }else{
+            displayReserves(view);
+        }
+
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        if (downloadXmlReserves.getStatus() == AsyncTask.Status.FINISHED) {
+                            downloadXmlReserves = new DownloadXmlReserves();
+                            downloadXmlReserves.delegate = UserInfoFragment.this;
+                            downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
+                        }
+                    }
+                }
+        );
         return view;
     }
 
@@ -91,9 +116,17 @@ public class UserInfoFragment extends Fragment implements AsyncResponse {
     @Override
     public void processFinish(List output) {
         reservesList = output;
+        ((MainActivity)getActivity()).setReservesItems(reservesList);
         displayReserves(view);
+        refreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (downloadXmlReserves.getStatus() == AsyncTask.Status.RUNNING || downloadXmlReserves.getStatus() == AsyncTask.Status.PENDING)
+            downloadXmlReserves.cancel(true);
+    }
     /*public void getService (View view) {
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final TextView display = (TextView) view.findViewById(R.id.display);

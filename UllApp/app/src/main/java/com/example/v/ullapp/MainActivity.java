@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -39,9 +40,12 @@ import com.example.v.ullapp.news.NewsAdapter;
 import com.example.v.ullapp.news.NewsItem;
 import com.example.v.ullapp.news.NewsActivity;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
+import com.example.v.ullapp.reserves.ReserveItem;
+import com.example.v.ullapp.service.ServiceItem;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,11 +57,12 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AsyncResponse {
+        implements NavigationView.OnNavigationItemSelectedListener {
     private User user;
     Bitmap bitmap;
-    MenuItem previousMenuItem;
-    List<NewsItem> newsItems = null;
+    private List<NewsItem> newsItems = null;
+    private List<ReserveItem> reservesItems = null;
+    private List<ServiceItem> serviceItems = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +89,6 @@ public class MainActivity extends AppCompatActivity
             firstFragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
-            //newses
-            DownloadXmlNews downloadXmlNews = new DownloadXmlNews();
-            downloadXmlNews.delegate = this;
-            downloadXmlNews.execute(getResources().getString(R.string.newsFeed));
         }
         /**
          * Si usuario está autenticado
@@ -98,87 +99,48 @@ public class MainActivity extends AppCompatActivity
             View headerView = navigationView.getHeaderView(0);
             user=PrefUtils.getCurrentUser(MainActivity.this);
 
-            TextView username = (TextView) headerView.findViewById(R.id.username);
+            final TextView username = (TextView) headerView.findViewById(R.id.username);
             username.setText(user.name);
             TextView email = (TextView) headerView.findViewById(R.id.email);
             email.setText(user.email);
 
             final CircleImageView profile_image = (CircleImageView) headerView.findViewById(R.id.profile_image);
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    URL imageURL = null;
-                    try {
-                        imageURL = new URL(user.imageURL);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+            if(user.image == null) {
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        URL imageURL = null;
+                        try {
+                            imageURL = new URL(user.imageURL);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
                     }
-                    return null;
-                }
 
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    profile_image.setImageBitmap(bitmap);
-                }
-            }.execute();
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        user.image = encodeTobase64(bitmap);
+                        PrefUtils.setCurrentUser(user, MainActivity.this);
+                        profile_image.setImageBitmap(decodeBase64(user.image));
+                    }
+                }.execute();
+            }else{
+                profile_image.setImageBitmap(decodeBase64(user.image));
+            }
             //Menu
             Menu menu = navigationView.getMenu();
             menu.findItem(R.id.nav_news).setChecked(true);
         }//endif
     }
-    @Override
-    public void processFinish(List result){
-        newsItems = result;
-        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
-        if(pb != null)
-            pb.setVisibility(View.INVISIBLE);
-        displayNews(result);
-    }
-    public void displayNews(List<NewsItem> newsItems){
-        if(newsItems != null) {
-            RecyclerView mRecyclerView;
-            RecyclerView.Adapter mAdapter;
-            RecyclerView.LayoutManager mLayoutManager;
-            mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            mRecyclerView.setHasFixedSize(true);
-
-            // use a linear layout manager
-            mLayoutManager = new LinearLayoutManager(this);
-            mRecyclerView.setLayoutManager(mLayoutManager);
-
-            // specify an adapter (see also next example)
-            mAdapter = new NewsAdapter(newsItems);
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.addOnItemTouchListener(
-                    new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener(){
-                        @Override public void onItemClick(View view, int position) {
-                            // TODO Handle item click
-                            showActivityNew(view, position);
-                        }
-                    })
-            );
-            //Toast.makeText(MainActivity.this, "Noticias actualizadas", Toast.LENGTH_SHORT).show();
-        }else
-            Toast.makeText(MainActivity.this, "No se han podido cargar las noticias", Toast.LENGTH_SHORT).show();
-    }
-    public void showActivityNew(View view, int position){
-        Intent intent = new Intent(this, NewsActivity.class);
-        intent.putExtra("TITLE", newsItems.get(position).getTitle());
-        intent.putExtra("LINK", newsItems.get(position).getLink());
-        intent.putExtra("DATE", newsItems.get(position).getPubDate());
-        intent.putExtra("CONT", newsItems.get(position).getContent());
-        startActivity(intent);
-    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -224,10 +186,10 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
+        Bundle arguments;
         switch (item.getItemId()){
             case R.id.nav_news:
-                Bundle arguments = new Bundle();
+                arguments = new Bundle();
                 arguments.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) newsItems);
                 NewsFragment newsFragment = new NewsFragment();
                 newsFragment.setArguments(arguments);
@@ -235,17 +197,22 @@ public class MainActivity extends AppCompatActivity
                 transaction.replace(R.id.fragment_container, newsFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //displayNews(newses);
                 return true;
             case R.id.user_info:
+                arguments = new Bundle();
+                arguments.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) reservesItems);
                 UserInfoFragment userInfoFragment = new UserInfoFragment();
+                userInfoFragment.setArguments(arguments);
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, userInfoFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 return true;
             case R.id.nav_service:
+                arguments = new Bundle();
+                arguments.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) serviceItems);
                 ServiceFragment serviceFragment = new ServiceFragment();
+                serviceFragment.setArguments(arguments);
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, serviceFragment);
                 transaction.addToBackStack(null);
@@ -270,45 +237,33 @@ public class MainActivity extends AppCompatActivity
                 return true;
         }
     }
-    /**
-     * get some data from the server
-     *
-     */
-    public void getService () {
-        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        final TextView display = (TextView) findViewById(R.id.display);
-        if(accessToken != null) {
 
-            // Instantiate the RequestQueue.
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "https://tfgserver.herokuapp.com/cv/";
-            // Request a string response from the provided URL.
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // Display the first 500 characters of the response string.
-                            display.setText("Response is: " + response);
-                            Log.e("Response", response + "");
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    display.setText("That didn't work!" + error);
-                    Log.e("Error", "That didn't work!" + "");
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("access_token", accessToken.getToken());
-                    return params;
-                }
-            };
-            // Add the request to the RequestQueue.
-            queue.add(stringRequest);
-        }else{
-            Toast.makeText(MainActivity.this,"Se requiere autenticación. Por favor, inicie sesión.", Toast.LENGTH_LONG).show();
-        }
+    public void setNewsItems(List<NewsItem> list){
+        newsItems = list;
+    }
+
+    public void setReservesItems(List<ReserveItem> list){
+        reservesItems = list;
+    }
+
+    public void setServiceItems(List<ServiceItem> list){
+        serviceItems = list;
+    }
+
+
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return imageEncoded;
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 }

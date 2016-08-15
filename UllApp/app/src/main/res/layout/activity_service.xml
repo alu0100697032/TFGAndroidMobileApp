@@ -50,7 +50,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_confirm"
+            android:text="@string/action_reserve"
             android:id="@+id/button_reserve"
             android:textColor="@color/colorWhite"
             android:background="@drawable/custom_button"

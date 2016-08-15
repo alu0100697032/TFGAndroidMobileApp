@@ -2,8 +2,10 @@ package com.example.v.ullapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.v.ullapp.MainActivity;
 import com.example.v.ullapp.R;
 import com.example.v.ullapp.news.AsyncResponse;
 import com.example.v.ullapp.news.DownloadXmlNews;
 import com.example.v.ullapp.news.NewsActivity;
 import com.example.v.ullapp.news.NewsAdapter;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
+import com.example.v.ullapp.reserves.DownloadXmlReserves;
 import com.example.v.ullapp.service.DownloadXmlService;
 import com.example.v.ullapp.service.ServiceActivity;
 import com.example.v.ullapp.service.ServiceAdapter;
@@ -32,14 +36,34 @@ import java.util.List;
 public class ServiceFragment extends Fragment implements AsyncResponse{
     private List<ServiceItem> serviceList = null;
     private View view;
+    DownloadXmlService downloadXmlService;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.content_service, container, false);
-        DownloadXmlService downloadXmlService = new DownloadXmlService();
-        downloadXmlService.delegate = this;
-        downloadXmlService.execute("http://192.168.1.105:8000/cv/");
+        if(serviceList == null) {
+            downloadXmlService = new DownloadXmlService();
+            downloadXmlService.delegate = this;
+            downloadXmlService.execute(getResources().getString(R.string.service_url));
+        }else
+            displayService(view);
+
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        if (downloadXmlService.getStatus() == AsyncTask.Status.FINISHED) {
+                            downloadXmlService = new DownloadXmlService();
+                            downloadXmlService.delegate = ServiceFragment.this;
+                            downloadXmlService.execute(getResources().getString(R.string.service_url));
+                        }
+                    }
+                }
+        );
         return view;
     }
 
@@ -99,6 +123,15 @@ public class ServiceFragment extends Fragment implements AsyncResponse{
     @Override
     public void processFinish(List output) {
         serviceList = output;
+        ((MainActivity)getActivity()).setServiceItems(serviceList);
         displayService(view);
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (downloadXmlService.getStatus() == AsyncTask.Status.RUNNING || downloadXmlService.getStatus() == AsyncTask.Status.PENDING)
+            downloadXmlService.cancel(true);
     }
 }
