@@ -20,14 +20,14 @@
             android:id="@+id/nav_maps"
             android:icon="@drawable/ic_menu_marker"
             android:title="@string/maps" />
-        <item
+    <!--<item
             android:id="@+id/nav_parking"
             android:icon="@drawable/ic_menu_parking"
             android:title="@string/parkings" />
         <item
             android:id="@+id/nav_directory"
             android:icon="@drawable/ic_menu_marker"
-            android:title="@string/directory" />
+            android:title="@string/directory" />-->
     </group>
     <group
         android:checkableBehavior="single"
