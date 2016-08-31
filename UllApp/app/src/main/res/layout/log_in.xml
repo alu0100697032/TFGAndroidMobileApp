@@ -42,13 +42,22 @@
         android:onClick="loginWeb"
         android:layout_marginTop="16dp"/>
 -->
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:layout_centerInParent="true">
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ull_inicio"
+            android:id="@+id/logo"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:paddingBottom="10dp"/>
 
         <FrameLayout
             android:id="@+id/FrameLayout1"
@@ -67,7 +76,8 @@
         <com.google.android.gms.common.SignInButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/google_button"/>
+            android:id="@+id/google_button"
+            />
 
     </LinearLayout>
   <!--  <ScrollView
