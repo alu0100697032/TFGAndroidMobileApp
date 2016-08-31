@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,6 @@ import org.json.JSONObject;
 import ch.boye.httpclientandroidlib.client.HttpClient;
 import ch.boye.httpclientandroidlib.impl.client.DefaultRedirectStrategy;
 import ch.boye.httpclientandroidlib.impl.client.HttpClientBuilder;
-import ch.boye.httpclientandroidlib.impl.client.cache.ManagedHttpCacheStorage;
 
 
 /**
@@ -69,12 +67,6 @@ public class LoginActivity extends AppCompatActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.log_in);
 
-        if(PrefUtils.getCurrentUser(LoginActivity.this) != null){
-            Intent homeIntent = new Intent(this, MainActivity.class);
-            startActivity(homeIntent);
-            finish();
-        }
-
         //Facebook
         callbackManager=CallbackManager.Factory.create();
         facebookButton = (LoginButton)findViewById(R.id.login_button);
@@ -85,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements
         findViewById(R.id.google_button).setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("561231153421-tcps6ubfu7ei9dleoo33o3sniopjclsu.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -93,7 +86,15 @@ public class LoginActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
+    protected void onResume(){
+        super.onResume();
 
+        if(PrefUtils.getCurrentUser(LoginActivity.this) != null){
+            Intent homeIntent = new Intent(this, MainActivity.class);
+            startActivity(homeIntent);
+            finish();
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements
             }catch (Exception e){
                 e.printStackTrace();
             }
-            //loginServer();
+            loginServerGoogle();
             Toast.makeText(LoginActivity.this,"Bienvenido "+ user.name, Toast.LENGTH_LONG).show();
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -173,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements
                                 e.printStackTrace();
                             }
                             //login server
-                            loginServer();
+                            loginServerFacebook();
 
                             Toast.makeText(LoginActivity.this,"Bienvenido "+user.name, Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
@@ -201,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements
     /**
      * Send token
      */
-    public void loginServer() {
+    public void loginServerFacebook() {
 
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null) {
@@ -232,6 +233,39 @@ public class LoginActivity extends AppCompatActivity implements
             queue.add(stringRequest);
         }
     }
+
+    public void loginServerGoogle() {
+        if(user.token != null) {
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = getResources().getString(R.string.google_login_url);
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.e("Response", response + "It works!");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("Error", "Error sending token!");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    Log.e("T", user.token);
+                    params.put("access_token", user.token);
+                    return params;
+                }
+            };
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+        }else
+            Log.e("U", "User token is null");
+    }
+
     /**
      * Ull user and password
      * @param view
