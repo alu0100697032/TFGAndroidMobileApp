@@ -3,13 +3,13 @@ package com.example.v.ullapp.service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,32 +22,40 @@ import com.android.volley.toolbox.Volley;
 import com.example.v.ullapp.PrefUtils;
 import com.example.v.ullapp.R;
 import com.facebook.AccessToken;
-import com.google.gson.JsonArray;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Usuario on 12/08/2016.
  */
-public class ServiceActivity extends AppCompatActivity {
+public class ReserveActivity extends AppCompatActivity {
     String selectedDate = "";
+    MaterialCalendarView calendar;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Reserva");
         setContentView(R.layout.activity_service);
 
         Intent intent = getIntent();
         final int pistaId = intent.getIntExtra("ID", 0);
-        getReservadas(pistaId);
         Log.e("I", pistaId + "");
         final String name = intent.getStringExtra("NAME");
         String type = intent.getStringExtra("TYPE");
@@ -58,9 +66,11 @@ public class ServiceActivity extends AppCompatActivity {
         c.setText(type);
 
         //calendar
-        final CalendarView calendar = (CalendarView) findViewById(R.id.calendarView);
-        calendar.setMinDate(System.currentTimeMillis());
-
+        calendar = (MaterialCalendarView) findViewById(R.id.calendarView);
+        Calendar cal = Calendar.getInstance();
+        calendar.state().edit().setMinimumDate(CalendarDay.from(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))).
+                setMaximumDate(CalendarDay.from(cal.get(Calendar.YEAR) + 1, cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))).commit();
+        getReservadas(pistaId);
         //Dialog
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Se efectuará la reserva de " + name +" el día seleccionado.")
@@ -88,12 +98,12 @@ public class ServiceActivity extends AppCompatActivity {
         });
 
         final SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
-        selectedDate = String.valueOf(calendar.getDate());
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        selectedDate = String.valueOf(cal.getTimeInMillis());
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Calendar c = Calendar.getInstance();
-                c.set(year, month, dayOfMonth);
+                c.set(date.getYear(), date.getMonth(), date.getDay());
                 selectedDate = String.valueOf(c.getTimeInMillis());
             }
         });
@@ -101,10 +111,13 @@ public class ServiceActivity extends AppCompatActivity {
 
     public void reserve(int id){
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        String token = accessToken.getToken();
+        String token;
+        if(accessToken != null)
+            token = accessToken.getToken();
+        else
+            token = PrefUtils.getCurrentUser(this).token;
         if(token == null)
             token = PrefUtils.getCurrentUser(this).token;
-        CalendarView cv = (CalendarView) findViewById(R.id.calendarView);
         final String finalToken = token;
         final String pista_pk = String.valueOf(id);
         final String date = selectedDate;
@@ -117,7 +130,7 @@ public class ServiceActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(ServiceActivity.this, response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReserveActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -154,19 +167,25 @@ public class ServiceActivity extends AppCompatActivity {
                         try {
                             JSONArray reservadas = new JSONArray(response);
                             String[] mArray = reservadas.join(",").split(",");
-                            for (int i = 0; i < mArray.length; i++){
+                            for (int i = 0; i < mArray.length; i++) {
                                 reservadasLong.add(Long.parseLong(mArray[i]));
                             }
-                            Log.e("Response", mArray.toString() + "");
+                            //Log.e("Response", mArray.toString() + "");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        List<CalendarDay> list = new ArrayList<CalendarDay>();
+                        for (Long r : reservadasLong) {
+                            CalendarDay calendarDay = CalendarDay.from(new Date(r));
+                            list.add(calendarDay);
+                        }
+                        calendarDays = list;
+                        calendar.addDecorators(new EventDecorator(R.color.colorCafe, calendarDays));
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", "That didn't work!" + "");
+
             }
         }) {
             @Override
@@ -179,4 +198,94 @@ public class ServiceActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
+    private class EventDecorator implements DayViewDecorator {
+
+        private final int color;
+        private final HashSet<CalendarDay> dates;
+
+        public EventDecorator(int color, Collection<CalendarDay> dates) {
+            this.color = color;
+            this.dates = new HashSet<>(dates);
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return dates.contains(day);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(color));
+        }
+    }
+    private Collection<CalendarDay> calendarDays = new Collection<CalendarDay>() {
+        @Override
+        public boolean add(CalendarDay object) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends CalendarDay> collection) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @Override
+        public boolean contains(Object object) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @NonNull
+        @Override
+        public Iterator<CalendarDay> iterator() {
+            return null;
+        }
+
+        @Override
+        public boolean remove(Object object) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @NonNull
+        @Override
+        public Object[] toArray() {
+            return new Object[0];
+        }
+
+        @NonNull
+        @Override
+        public <T> T[] toArray(T[] array) {
+            return null;
+        }
+    };
 }
