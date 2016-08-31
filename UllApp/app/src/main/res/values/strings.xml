@@ -2,15 +2,25 @@
     <!--No changes-->
     <string name="app_name">UllApp</string>
     <string name="facebook_app_id">255716731452940</string>
-    <string name="facebook_login_url">https://tfgserver.herokuapp.com/account/facebook/login/token/</string>
-    <string name="google_login_url">http://192.168.1.105:8000/account/google/login/token/</string>
-    <string name="service_url">http://192.168.1.105:8000/cv/</string>
-    <string name="reserve_url">http://192.168.1.105:8000/cv/reservar</string>
-    <string name="my_data_url">http://192.168.1.105:8000/cv/user_reserves</string>
-    <string name="ya_reservadas_url">http://192.168.1.105:8000/cv/ya_reservadas</string>
-    <!--<string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>-->
-    <string name="newsFeed">http://ddigital.webs.ull.es/category/destacado/feed/</string>
+    <!--Develop-->
+    <!--<string name="facebook_login_url">http://192.168.1.100:8000/account/facebook/login/token/</string>
+    <string name="google_login_url">http://192.168.1.100:8000/account/google/login/token/</string>
+    <string name="service_url">http://192.168.1.100:8000/cv/</string>
+    <string name="reserve_url">http://192.168.1.100:8000/cv/reservar</string>
+    <string name="my_data_url">http://192.168.1.100:8000/cv/user_reserves</string>
+    <string name="ya_reservadas_url">http://192.168.1.100:8000/cv/ya_reservadas</string>-->
 
+    <!--Preproduction-->
+    <string name="facebook_login_url">https://tfgserver.herokuapp.com/account/facebook/login/token/</string>
+    <string name="google_login_url">https://tfgserver.herokuapp.com/account/google/login/token/</string>
+    <string name="service_url">https://tfgserver.herokuapp.com/cv/</string>
+    <string name="reserve_url">https://tfgserver.herokuapp.com/cv/reservar</string>
+    <string name="my_data_url">https://tfgserver.herokuapp.com/cv/user_reserves</string>
+    <string name="ya_reservadas_url">https://tfgserver.herokuapp.com/cv/ya_reservadas</string>
+
+    <!--<string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>
+    <string name="newsFeed">http://ddigital.webs.ull.es/category/destacado/feed/</string>-->
+    <string name="newsFeed">http://ddigital.webs.ull.es/feed/</string>
 
     <!--Placeholders-->
     <string name="username">Username</string>
@@ -24,7 +34,7 @@
     <string name="maps">Maps</string>
     <string name="parkings">Parkings</string>
     <string name="news">News</string>
-    <string name="service">Service</string>
+    <string name="service">Services</string>
     <!--Buttons/actions-->
     <string name="action_login">Sign In</string>
     <string name="action_logout">Log Out</string>

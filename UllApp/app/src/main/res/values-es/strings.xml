@@ -7,11 +7,17 @@
     <string name="user_info">Datos personales</string>
     <string name="information">Información</string>
     <string name="directory">Directorio</string>
+    <string name="news">Noticias</string>
+    <string name="maps">Mapas</string>
+    <string name="parkings">Aparcamientos</string>
+    <string name="service">Servicios</string>
     <!--Buttons/actions-->
     <string name="action_login">Iniciar Sesión</string>
+    <string name="action_logout">Cerrar Sesión</string>
     <string name="action_login_facebook">Iniciar sesión con Facebook</string>
     <string name="action_logout_facebook">Cerrar sesión de Facebook</string>
     <string name="campus">Campus</string>
+    <string name="action_reserve">Reservar</string>
     <!--Static text-->
     <string name="basic_access">Acceso básico</string>
     <string name="user_access">Acceso de usuario</string>
