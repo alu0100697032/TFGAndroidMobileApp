@@ -28,10 +28,12 @@ public class LogoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Cerrar sesión");
         setContentView(R.layout.log_out);
         user=PrefUtils.getCurrentUser(LogoutActivity.this);
         profileImage= (ImageView) findViewById(R.id.profileImage);
-        profileImage.setImageBitmap(decodeBase64(user.image));
+        if(user.image != null)
+            profileImage.setImageBitmap(decodeBase64(user.image));
 
         btnLogout = (TextView) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {

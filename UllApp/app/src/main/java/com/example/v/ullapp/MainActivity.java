@@ -127,9 +127,11 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
-                        user.image = encodeTobase64(bitmap);
-                        PrefUtils.setCurrentUser(user, MainActivity.this);
-                        profile_image.setImageBitmap(decodeBase64(user.image));
+                        if(bitmap != null) {
+                            user.image = encodeTobase64(bitmap);
+                            PrefUtils.setCurrentUser(user, MainActivity.this);
+                            profile_image.setImageBitmap(decodeBase64(user.image));
+                        }
                     }
                 }.execute();
             }else{
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.nav_info:
+            /*case R.id.nav_info:
                 InfoFragment infoFragment = new InfoFragment();
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, infoFragment);
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_directory:
                 intent = new Intent(this, DirectoryActivity.class);
                 startActivity(intent);
-                return true;
+                return true;*/
             default:
                 return true;
         }
