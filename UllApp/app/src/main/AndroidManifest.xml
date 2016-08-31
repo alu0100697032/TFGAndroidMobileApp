@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name=".service.ServiceActivity"
+            android:name=".service.ReserveActivity"
             android:label="@string/service">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
