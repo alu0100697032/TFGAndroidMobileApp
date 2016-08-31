@@ -9,3 +9,30 @@
 % ----------------------------------------------------
 %
 \chapter{Presupuesto}
+
+En esta sección de mostrará una tabla con las actividades principales realizadas, indicando cuanto tiempo aproximado se ha dedicado a cada una y un coste asociado por hora de trabajo del desarrollador. 
+
+Se ha supuesto un sueldo de 20 euros la hora en el que el desarrollo completo de la aplicación supondría dos meses de trabajo. Gastos de despliegue de la aplicación a parte.
+
+\bigskip
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Actividad}} & \textbf{Duración (horas)} & \textbf{Coste (\euro{})} \\ \hline
+Documentación                            & 100                       & 2000                \\ \hline
+Diseño                                   & 40                        & 800                \\ \hline
+Implementación                           & 80                        & 1600               \\ \hline
+Evaluación y pruebas                     & 20                        & 400                \\ \hline
+Elaboración de la memoria                & 50                        & 1000               \\ \hline
+Revisión                                 & 10                        & 200               \\ \hline
+\multicolumn{1}{c}{\textbf{}} & \multicolumn{1}{c}{\textbf{}}  & \multicolumn{1}{c}{\textbf{}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{TOTAL}}     & \textbf{300}              & \textbf{6000}      \\ \hline
+\end{tabular}%
+}
+\caption{Tiempo dedicado y coste}
+\label{my-label}
+\end{table}

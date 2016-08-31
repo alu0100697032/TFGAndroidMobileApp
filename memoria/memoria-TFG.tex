@@ -19,6 +19,8 @@
 % To switch from PDF and PS comment/uncomment here and change Makefile
 \usepackage[pdftex]{color}
 \usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{eurosym}
 \graphicspath{{images/}}
 %\usepackage[dvips]{color}
 %\usepackage[dvips]{graphicx}
@@ -29,8 +31,8 @@
 \usepackage[pdftex=true,colorlinks=false,urlcolor=blue,plainpages=false,pagebackref=true,citecolor=red]{hyperref} %hiperenlaces y backcites 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comandos para escribir "siempre igual"
-\newcommand{\App}{\texttt{ULL App{}}}
-\newcommand{\lApp}{\texttt{Aplicación móvil basada en Android para la Universidad de La Laguna{}}}
+\newcommand{\App}{\texttt{UllApp{}}}
+\newcommand{\lApp}{\texttt{Aplicación Android para la Universidad de La Laguna{}}}
 
 %%% Traducimos el pseudocodigo
 \renewcommand{\algorithmicwhile}{\textbf{mientras}}
@@ -163,8 +165,8 @@
 
 \HRule
 \begin{flushright}
-        {\Huge \lApp{}: \App{}} \\[2.5mm]
-        %{\Large \textit{App} .} \\[5mm]
+        {\Huge \lApp{}} \\[2.5mm]
+        {\Large \textit{\App}} \\[5mm]
         {\Large Víctor Hernández Pérez} \\[5mm]
 
 
@@ -235,7 +237,11 @@ Agradecimientos
 
 
 \hspace{3mm}
-Agradezco ...
+En primer lugar agradecer a mi familia por haberme educado, apoyado y haber hecho el esfuerzo que me ha permitido realizar estos estudios.
+
+Dar las gracias también a mi tutor, Francisco de Sande González por su orientación, predisposición, conocimiento y experiencia que me han ayudado en la realización de éste trabajo.
+
+Y por último, agradecer al resto de profesores y compañeros que he tenido a lo largo de la carrera, porque de todos he aprendido.
 
 
 \end{large}
@@ -265,7 +271,7 @@ Licencia
 \begin{abstract}
 {\em
 
-El objetivo de este trabajo ha sido crear una aplicación para dispositivos Android que permita ...
+El objetivo de este trabajo ha sido crear una aplicación para dispositivos Android que permita autenticación al usuario, acceder a algún tipo de servicio y a otros datos de interés relacionados con la Universidad de La Laguna.
 
 \bigskip
 Partiendo de los conocimientos en \textit{Java} obtenidos en la asignatura: \textit{'Programación de Aplicaciones Interactivas'} y desarrollados en otras asignaturas como: 
@@ -274,14 +280,14 @@ itinerario de computación del Grado en Ingeniería Informática de la Universid
 conocimientos básicos necesarios para desarrollar aplicaciones en Android. 
 
 \bigskip
-Del mismo modo... 
+Principalmente la aplicación permite al usuario hacer login con su cuenta de Facebook o Google para poder acceder a las noticias institucionales, ubicaciones de interés en Google Maps y hacer uso del sistema de un sistema de reserva de pistas deportivas.
 
 \bigskip 
-También ...
+Del mismo modo, haciendo uso de algunos conocimientos adquiridos en la asignatura \textit{Prácticas Externas}, se ha conseguido implementar otra aplicación en Django que sea la encargada de controlar a los usuarios autenticados y haga la gestión del sistema de reservas.
 
 }
 \begin{palabrasClave}
-Aplicaciones Android,.
+Aplicaciones Android, Django, autenticación y Google Maps.
 \end{palabrasClave}
 
 \end{abstract}
@@ -292,7 +298,7 @@ Aplicaciones Android,.
 \begin{summary}
 {\em
 
-The aim of this work has been the development of an application for Android devices that allows to ...
+The objective of this work has been the development of an application for Android devices that provides authentication, access to a service and access other data of interest related with University of La Laguna.
 
 \bigskip
 Based on the knowledge of Java obtained in the subject: ``Programming Interactive Applications'' and developed in other subjects like: ``Design and Analysis of Algorithms'', 
@@ -302,15 +308,15 @@ in this work we expect to acquire the basic knowledge needed to
 develop Android applications.
 
 \bigskip
-Moreover ...
+Mainly, the application allows the user login with his Facebook or Google account and get institutional news, location of interest on Google Maps and use the reserve system of sports fields.
 
 \bigskip
-Finally ...
+Moreover, making use of some knowledge of Django acquired in the subject ``Prácticas Externas'', it has beed achieved develop another Django application which handdle the authtenticated users and manage the reserve system. 
 
 }
 
 \begin{keywords}
-Application for Android.
+Application for Android, Django, authentication and Google Maps.
 \end{keywords}
 
 \end{summary}
