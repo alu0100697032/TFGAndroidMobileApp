@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,10 @@ public class ReservesXmlParser extends XmlParser {
         parser.require(XmlPullParser.START_TAG, ns, "field");
         String date = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "field");
-        return date;
+        return removeTime(date);
+    }
+    public String removeTime(String text){
+        String replaced = text.replaceAll("T.*", "");
+        return replaced;
     }
 }

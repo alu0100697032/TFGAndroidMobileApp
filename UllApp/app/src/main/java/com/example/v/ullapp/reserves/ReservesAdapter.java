@@ -44,9 +44,9 @@ public class ReservesAdapter extends RecyclerView.Adapter<ReservesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ReservesAdapter.ViewHolder holder, int position) {
         ReserveItem n = courtList.get(position);
-        holder.courtType.setText(n.getCourtType());
-        holder.courtName.setText(n.getCourtName());
-        holder.date.setText(n.getDate());
+        holder.courtType.setText("Tipo: " + n.getCourtType());
+        holder.courtName.setText("Nombre: " + n.getCourtName());
+        holder.date.setText("Fecha: " + n.getDate());
     }
 
     @Override

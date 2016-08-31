@@ -44,8 +44,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     @Override
     public void onBindViewHolder(ServiceAdapter.ViewHolder holder, int position) {
         ServiceItem n = courtList.get(position);
-        holder.courtType.setText(n.getCourtType());
-        holder.courtName.setText(n.getCourtName());
+        holder.courtType.setText("Tipo: " + n.getCourtType());
+        holder.courtName.setText("Nombre: " + n.getCourtName());
     }
 
     @Override

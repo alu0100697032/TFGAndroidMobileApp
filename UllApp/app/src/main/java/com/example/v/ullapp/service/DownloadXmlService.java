@@ -1,11 +1,8 @@
 package com.example.v.ullapp.service;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.v.ullapp.news.AsyncResponse;
-import com.example.v.ullapp.news.NewsItem;
-import com.example.v.ullapp.news.UllNewsXmlParser;
 
 import org.xmlpull.v1.XmlPullParserException;
 
