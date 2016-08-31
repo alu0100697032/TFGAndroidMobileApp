@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/reservar"
-            android:text="Reservar: "
+            android:text="Datos: "
             android:textSize="16dp"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
@@ -59,9 +59,18 @@
 
     </RelativeLayout>
 
-    <CalendarView
+    <!--<CalendarView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/calendarView" />
+        android:id="@+id/calendarView" />-->
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="@color/colorPrimary"
+        />
 
 </LinearLayout>
