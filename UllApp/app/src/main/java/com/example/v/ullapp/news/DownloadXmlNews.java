@@ -1,6 +1,5 @@
 package com.example.v.ullapp.news;
 
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -8,7 +7,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -38,12 +36,12 @@ public class DownloadXmlNews extends AsyncTask<String, Void, List> {
     private List loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
         // Instantiate the parser
-        UllNewsXmlParser ullNewsXmlParser = new UllNewsXmlParser();
+        NewsXmlParser newsXmlParser = new NewsXmlParser();
         List<NewsItem> newsItems = null;
 
         try {
             stream = downloadUrl(urlString);
-            newsItems = ullNewsXmlParser.parse(stream);
+            newsItems = newsXmlParser.parse(stream);
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
@@ -59,8 +57,8 @@ public class DownloadXmlNews extends AsyncTask<String, Void, List> {
     private InputStream downloadUrl(final String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
+        //conn.setReadTimeout(10000 /* milliseconds */);
+        //conn.setConnectTimeout(15000 /* milliseconds */);
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         // Starts the query

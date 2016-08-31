@@ -49,10 +49,11 @@ public class UserInfoFragment extends Fragment implements AsyncResponse {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(getResources().getString(R.string.user_info));
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.content_personal_info, container, false);
         if(reservesList == null) {
-            downloadXmlReserves = new DownloadXmlReserves();
+            downloadXmlReserves = new DownloadXmlReserves(getContext());
             downloadXmlReserves.delegate = this;
             downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
         }else{
@@ -62,16 +63,16 @@ public class UserInfoFragment extends Fragment implements AsyncResponse {
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        if (downloadXmlReserves.getStatus() == AsyncTask.Status.FINISHED) {
-                            downloadXmlReserves = new DownloadXmlReserves();
-                            downloadXmlReserves.delegate = UserInfoFragment.this;
-                            downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
-                        }
+            new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (downloadXmlReserves.getStatus() == AsyncTask.Status.FINISHED) {
+                        downloadXmlReserves = new DownloadXmlReserves(getContext());
+                        downloadXmlReserves.delegate = UserInfoFragment.this;
+                        downloadXmlReserves.execute(getResources().getString(R.string.my_data_url));
                     }
                 }
+            }
         );
         return view;
     }
@@ -124,8 +125,10 @@ public class UserInfoFragment extends Fragment implements AsyncResponse {
     @Override
     public void onPause(){
         super.onPause();
-        if (downloadXmlReserves.getStatus() == AsyncTask.Status.RUNNING || downloadXmlReserves.getStatus() == AsyncTask.Status.PENDING)
-            downloadXmlReserves.cancel(true);
+        if(downloadXmlReserves != null) {
+            if (downloadXmlReserves.getStatus() == AsyncTask.Status.RUNNING || downloadXmlReserves.getStatus() == AsyncTask.Status.PENDING)
+                downloadXmlReserves.cancel(true);
+        }
     }
     /*public void getService (View view) {
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();

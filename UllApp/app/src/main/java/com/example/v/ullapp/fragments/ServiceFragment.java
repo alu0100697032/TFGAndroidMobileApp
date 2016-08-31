@@ -1,6 +1,5 @@
 package com.example.v.ullapp.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +16,9 @@ import android.widget.Toast;
 import com.example.v.ullapp.MainActivity;
 import com.example.v.ullapp.R;
 import com.example.v.ullapp.news.AsyncResponse;
-import com.example.v.ullapp.news.DownloadXmlNews;
-import com.example.v.ullapp.news.NewsActivity;
-import com.example.v.ullapp.news.NewsAdapter;
 import com.example.v.ullapp.news.RecyclerItemClickListener;
-import com.example.v.ullapp.reserves.DownloadXmlReserves;
 import com.example.v.ullapp.service.DownloadXmlService;
-import com.example.v.ullapp.service.ServiceActivity;
+import com.example.v.ullapp.service.ReserveActivity;
 import com.example.v.ullapp.service.ServiceAdapter;
 import com.example.v.ullapp.service.ServiceItem;
 
@@ -41,6 +35,7 @@ public class ServiceFragment extends Fragment implements AsyncResponse{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(getResources().getString(R.string.service));
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.content_service, container, false);
         if(serviceList == null) {
@@ -113,7 +108,7 @@ public class ServiceFragment extends Fragment implements AsyncResponse{
     }
 
     public void showActivityService(View view, int position){
-        Intent intent = new Intent(view.getContext(), ServiceActivity.class);
+        Intent intent = new Intent(view.getContext(), ReserveActivity.class);
         intent.putExtra("ID", serviceList.get(position).getCourtId());
         intent.putExtra("NAME", serviceList.get(position).getCourtName());
         intent.putExtra("TYPE", serviceList.get(position).getCourtType());
@@ -131,7 +126,9 @@ public class ServiceFragment extends Fragment implements AsyncResponse{
     @Override
     public void onPause(){
         super.onPause();
-        if (downloadXmlService.getStatus() == AsyncTask.Status.RUNNING || downloadXmlService.getStatus() == AsyncTask.Status.PENDING)
-            downloadXmlService.cancel(true);
+        if(downloadXmlService != null) {
+            if (downloadXmlService.getStatus() == AsyncTask.Status.RUNNING || downloadXmlService.getStatus() == AsyncTask.Status.PENDING)
+                downloadXmlService.cancel(true);
+        }
     }
 }

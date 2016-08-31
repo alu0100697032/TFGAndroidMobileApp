@@ -39,6 +39,7 @@ public class NewsFragment extends Fragment implements AsyncResponse {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(getResources().getString(R.string.news));
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.content_news, container, false);
         if(newsList == null) {
@@ -114,8 +115,10 @@ public class NewsFragment extends Fragment implements AsyncResponse {
     @Override
     public void onPause(){
         super.onPause();
-        if (downloadXmlNews.getStatus() == AsyncTask.Status.RUNNING || downloadXmlNews.getStatus() == AsyncTask.Status.PENDING)
-            downloadXmlNews.cancel(true);
+        if(downloadXmlNews != null) {
+            if (downloadXmlNews.getStatus() == AsyncTask.Status.RUNNING || downloadXmlNews.getStatus() == AsyncTask.Status.PENDING)
+                downloadXmlNews.cancel(true);
+        }
     }
     @Override
     public void processFinish(List output) {
